@@ -18,7 +18,6 @@ bot.collect_range = 5
 bot.object_collect_delay = 200
 bot.collect_interval = 200
 
-display_box         = 1422
 ghost_jar           = 3720
 jar_seed            = 3721
 ghost_in_a_jar      = 3722
@@ -310,6 +309,51 @@ function getJar()
 
     if jar_count < 1 then
         webHookEmbed(bot.name, " NO MORE JARS ")
+        checkWorld(drop_world)
+
+        if not getBot():getWorld():getLocal() then
+            sleep(200)
+            return
+        end
+
+        for _, tile in pairs(bot:getWorld():getTiles()) do
+            if tile.fg == tile_id then
+    
+                if current_tilex == 0 and current_tiley == 0 then
+                    bot:findPath(tile.x +1, tile.y)
+                else
+                    bot:findPath(current_tilex, current_tiley)
+                end
+    
+                sleep(2000)
+                bot:moveRight()
+                sleep(1000)
+                bot:moveLeft()
+                sleep(2000)
+                bot:drop(jar_seed, itemCount(jar_seed) - 1)
+                sleep(2000)
+                bot:drop(ghost_in_a_jar, itemCount(ghost_in_a_jar) - 1)
+                sleep(2000)
+                break
+            end
+        end
+
+        while itemCount(jar_seed) > 1 do
+            bot:moveRight()
+            sleep(1000)
+            bot:moveRight()
+            sleep(1000)
+            bot:moveLeft()
+            sleep(1000)
+            current_tilex = getposx()
+            current_tiley = getposy()
+            sleep(1000)
+            bot:drop(jar_seed, itemCount(jar_seed) - 1)
+            sleep(4000)
+        end
+
+        webHookEmbed(bot.name, "BOT DROPPED ALL SEEDS AND GIJ")
+
         bot.auto_reconnect = false
         bot:disconnect()
         stop_program = true
@@ -377,7 +421,7 @@ function dropItem()
     end
 
     for _, tile in pairs(bot:getWorld():getTiles()) do
-        if tile.fg == display_box then
+        if tile.fg == tile_id then
 
             if current_tilex == 0 and current_tiley == 0 then
                 bot:findPath(tile.x +1, tile.y)
@@ -406,7 +450,7 @@ function dropItem()
         current_tilex = getposx()
         current_tiley = getposy()
         sleep(1000)
-        bot:drop(itemToDrop, 199)
+        bot:drop(itemToDrop, itemCount(itemToDrop) - 1)
         sleep(4000)
     end
 
