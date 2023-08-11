@@ -49,36 +49,6 @@ drop_worldName = drop_world:match("(.+)|"):upper()
 
 data = {{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},}
 
-function webHookEmbed(title, desc)
-
-    local foot = "world: "..bot:getWorld().name
-    local script = [[
-        $webHookUrl = "]]..whURL..[["
-        [System.Collections.ArrayList]$embedArray = @()
-        $color = '16777215'
-        $title = ']]..title..[['
-        $description = ']]..desc..[['
-        $footers = ']]..foot..[['
-        $embedObject = [PSCustomObject]@{
-            color = $color
-            title = $title
-            description = $description
-			footer =  [PSCustomObject]@{ 
-                text = $footers 
-            }
-        }
-        $embedArray.Add($embedObject)
-        $payload = [PSCustomObject]@{
-            embeds = $embedArray
-        }
-        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        Invoke-RestMethod -Uri $webHookUrl -Body ($payload | ConvertTo-Json -Depth 4) -Method Post -ContentType 'application/json'
-    ]]
-    local pipe = io.popen('powershell -windowstyle Hidden -command -', 'w')
-    pipe:write(script)
-    pipe:close()
-end
-
 function webHook(title, desc)
 
     if true then return end
@@ -109,6 +79,20 @@ function webHook(title, desc)
     local pipe = io.popen('powershell -windowstyle Hidden -command -', 'w')
     pipe:write(script)
     pipe:close()
+end
+
+function webHookEmbed(title, desc)
+
+    local foot = "world: "..bot:getWorld().name
+
+    wh = Webhook.new(whURL)
+    wh.username = "AUTO GHOST"
+    wh.avatar_url = "https://static.wikia.nocookie.net/growtopia/images/a/a3/GhostA1.png/revision/latest?cb=20220325130603"
+    wh.embed1.use = true
+    wh.embed1.title = title
+    wh.embed1.description = desc
+    wh.embed1.footer.text = foot
+    wh:send()
 end
 
 function getposx()
