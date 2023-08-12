@@ -46,6 +46,8 @@ end
 
 function getBlocks(world)
 
+    bot.auto_collect = false
+
     if bot:getWorld().name ~= world:match("(.+)|"):upper() then
         sleep(500)
         bot:warp(world)
