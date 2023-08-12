@@ -1,1 +1,282 @@
+bot = getBot()
 
+last_y = 0
+
+function getPos()
+
+    if bot:getWorld().name ~= "" or bot:getWorld().name ~= "EXIT" then
+        if bot:getWorld():getLocal() then
+            botx = math.floor(getBot():getWorld():getLocal().posx/32)
+            boty = math.floor(getBot():getWorld():getLocal().posy/32)
+        end
+    end
+end
+
+function getposx()
+    if bot:getWorld():getLocal() then
+        last_x = math.floor(bot:getWorld():getLocal().posx/32)
+        return math.floor(bot:getWorld():getLocal().posx/32)
+    else
+        return last_x
+    end
+end
+
+function getposy()
+    if bot:getWorld():getLocal() then
+        last_x = math.floor(bot:getWorld():getLocal().posy/32)
+        return math.floor(bot:getWorld():getLocal().posy/32)
+    else
+        return last_x
+    end
+end
+
+function webHook(desc)
+
+    local foot = "name: "..bot.name:lower().."\nworld: "..bot:getWorld().name
+
+    wh = Webhook.new(whURL)
+    wh.username = "AUTO ECTO"
+    wh.avatar_url = "https://static.wikia.nocookie.net/growtopia/images/a/a3/GhostA1.png/revision/latest?cb=20220325130603"
+    wh.embed1.use = true
+    wh.embed1.title = "AUTO ECTO WORLD BY SC STORE"
+    wh.embed1.description = desc
+    wh.embed1.footer.text = foot
+    wh:send()
+end
+
+function getBlocks(world)
+
+    if bot:getWorld().name ~= world:match("(.+)|"):upper() then
+        sleep(500)
+        bot:warp(world)
+        sleep(4000)
+    end
+
+    getPos()
+    if bot:getWorld():getTile(botx, boty).fg == 6 then
+        sleep(500)
+        bot:warp(world)
+        sleep(4000)
+    end
+
+    ReconnectStorage(world)
+
+    countobj = 0
+    for _, obj in pairs(bot:getWorld():getObjects()) do
+        if obj.id == item_id then
+            countobj = countobj + obj.count
+        end
+    end
+
+    if countobj == 0 then
+        webHook("NO MORE BLOCKS IN STORAGE WORLD")
+    end
+
+    bot.auto_collect = true
+    for _, obj in pairs(bot:getWorld():getObjects()) do
+        if obj.id == item_id then
+            bot:findPath(math.floor(obj.x/32), math.floor(obj.y/32))
+            sleep(100)
+            while bot:getInventory():getItemCount(item_id) < 1 do
+                sleep(1000)
+                if bot:getInventory():getItemCount(item_id) > 1 then break end
+            end
+        end
+        if bot:getInventory():getItemCount(item_id) > 1 then break end
+    end
+
+end
+
+
+function makeWorld(world)
+
+    if bot:getWorld().name ~= world:upper() then
+        sleep(500)
+        bot:warp(world.."|"..id)
+        sleep(4000)
+    end
+
+    getPos()
+    if id ~= "" then
+        if bot:getWorld():getTile(botx, boty).fg == 6 then
+            sleep(500)
+            bot:warp(world.."|"..id)
+            sleep(4000)
+        end
+    end
+
+    for _, tile in pairs(bot:getWorld():getTiles()) do
+        Reconnect(world)
+        if bot:getInventory():getItemCount(item_id) < 1 then
+            getBlocks(storage_world)
+        end
+
+        Reconnect(world)
+        if bot:getWorld().name ~= world:upper() then
+            sleep(500)
+            bot:warp(world)
+            sleep(4000)
+        end
+
+        getPos()
+        if id ~= "" then
+            if bot:getWorld():getTile(botx, boty).fg == 6 then
+                sleep(500)
+                bot:warp(world)
+                sleep(4000)
+            end
+        end
+
+        Reconnect(world)
+        if tile.fg == 0 and tile.x ~= 0 and tile.x ~= 99 and tile.y % 2 == 1 and bot:getWorld():hasAccess(tile.x, tile.y) ~= 0 and tile.x % 6 ~= 0 then
+            bot:findPath(tile.x, tile.y - 1)
+            sleep(100)
+            bot:place(tile.x, tile.y, item_id)
+            sleep(250)
+        end
+    end
+
+    webHook(world.." IS DONE")
+
+end
+
+function convertDF(world)
+
+    if bot:getWorld().name ~= world:upper() then
+        sleep(500)
+        bot:warp(world.."|"..id)
+        sleep(4000)
+    end
+
+    getPos()
+    if id ~= "" then
+        if bot:getWorld():getTile(botx, boty).fg == 6 then
+            sleep(500)
+            bot:warp(world.."|"..id)
+            sleep(4000)
+        end
+    end
+
+    Reconnect(world)
+
+    local x = 0
+
+    for id, tile in pairs(bot:getWorld():getTiles()) do
+        Reconnect(world)
+        if tile.fg == 2 then
+            Reconnect(world)
+            if last_y == 0 then
+                last_y = tile.y
+            end
+            x = x + 1
+            if x % 6 == 0 then
+                Reconnect(world)
+                bot:findPath(tile.x, tile.y - 1)
+                sleep(1000)
+                curr_x = tile.x
+                curr_y = tile.y
+                while true do
+                    Reconnect(world)
+                    bot.auto_collect = true
+                    while (bot:getWorld():getTile(getposx(), getposy()+1).fg ~= 0 or bot:getWorld():getTile(getposx(), getposy()+1).bg ~= 0) and bot:getWorld():hasAccess(getposx(), getposy()+1) ~= 0 do
+                        if bot:getWorld():getTile(getposx(), getposy()+1).fg == 8 then break end
+                        bot:hit(getposx(), getposy()+1)
+                        sleep(250)
+                    end
+                    Reconnect(world)
+                    getPos()
+                    curr_y = curr_y + 1
+                    if bot:getWorld():getTile(curr_x, curr_y).fg == 0 then
+                        bot:findPath(curr_x, curr_y)
+                        sleep(250)
+                    end
+                    Reconnect(world)
+                    if bot:getInventory():getItemCount(2) == 200 then
+                        bot:trash(2, 200)
+                    end
+                    if bot:getInventory():getItemCount(3) == 200 then
+                        bot:trash(3, 200)
+                    end
+
+                    getPos()
+                    if bot:getWorld():getTile(botx, boty+1).fg == 8 then break end
+                end
+            end
+            if tile.y ~= last_y then
+                lasy_y = 0
+                break
+            end
+        end
+    end
+
+    webHook(world.." IS DONE")
+
+end
+
+function Reconnect(list)
+
+    if bot.status ~= 1 then
+        while bot.status ~= 1 do
+            bot:connect()
+            sleep(10000)
+        end
+        sleep(500)
+        bot:warp(list)
+        sleep(4000)
+    end
+
+    if bot:getWorld().name ~= "" and bot:getWorld().name ~= "EXIT" then
+        getPos()
+        if id ~= "" then
+            if bot:getWorld():getTile(botx,boty).fg == 6 then
+                sleep(500)
+                bot:warp(list.."|"..id)
+                sleep(4000)
+            end
+        end
+    else
+        sleep(500)
+        bot:warp(list.."|"..id)
+        sleep(4000)
+    end
+end
+
+function ReconnectStorage(list)
+
+    if bot.status ~= 1 then
+        while bot.status ~= 1 do
+            bot:connect()
+            sleep(10000)
+        end
+        sleep(500)
+        bot:warp(list)
+        sleep(4000)
+    end
+
+    if bot:getWorld().name ~= "" and bot:getWorld().name ~= "EXIT" then
+        getPos()
+        if bot:getWorld():getTile(botx,boty).fg == 6 then
+            sleep(500)
+            bot:warp(list)
+            sleep(4000)
+        end
+    else
+        sleep(500)
+        bot:warp(list)
+        sleep(4000)
+    end
+end
+
+
+for _, world in pairs(worlds) do
+
+    webHook("SCRIPT IS STARTING")
+    if convert_df then
+        webHook("current world: "..world)
+        convertDF(world)
+    else
+        webHook("current world: "..world)
+        makeWorld(world)
+    end
+
+end
