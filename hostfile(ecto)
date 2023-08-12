@@ -70,6 +70,11 @@ function getBlocks(world)
 
     if countobj == 0 then
         webHook("NO MORE BLOCKS IN STORAGE WORLD")
+        bot.auto_reconnect = false
+        sleep(500)
+        bot:disconnect()
+        sleep(500)
+        stop()
     end
 
     bot.auto_collect = true
@@ -105,13 +110,11 @@ function makeWorld(world)
         end
     end
 
-    for _, tile in pairs(bot:getWorld():getTiles()) do
-        Reconnect(world)
+    while true do
         if bot:getInventory():getItemCount(item_id) < 1 then
             getBlocks(storage_world)
         end
 
-        Reconnect(world)
         if bot:getWorld().name ~= world:upper() then
             sleep(500)
             bot:warp(world)
@@ -128,14 +131,49 @@ function makeWorld(world)
         end
 
         Reconnect(world)
-        if tile.fg == 0 and tile.x ~= 0 and tile.x ~= 99 and tile.y % 2 == 1 and bot:getWorld():hasAccess(tile.x, tile.y) ~= 0 and tile.x % 6 ~= 0 then
-            bot:findPath(tile.x, tile.y - 1)
-            sleep(100)
-            while tile.fg == 0 do
-                bot:place(tile.x, tile.y, item_id)
-                sleep(250)
+        for _, tile in pairs(bot:getWorld():getTiles()) do
+            Reconnect(world)
+            if bot:getInventory():getItemCount(item_id) < 1 then
+                break
+            end
+
+            Reconnect(world)
+            if tile.fg == 0 and tile.x ~= 0 and tile.x ~= 99 and tile.y % 2 == 1 and bot:getWorld():hasAccess(tile.x, tile.y) ~= 0 and tile.x % 6 ~= 0 then
+                bot:findPath(tile.x, tile.y - 1)
+                sleep(100)
+                while tile.fg == 0 do
+                    bot:place(tile.x, tile.y, item_id)
+                    sleep(250)
+                end
             end
         end
+        if bot:getInventory():getItemCount(item_id) < 1 then
+            getBlocks(storage_world)
+        end
+
+        if bot:getWorld().name ~= world:upper() then
+            sleep(500)
+            bot:warp(world)
+            sleep(4000)
+        end
+
+        getPos()
+        if id ~= "" then
+            if bot:getWorld():getTile(botx, boty).fg == 6 then
+                sleep(500)
+                bot:warp(world)
+                sleep(4000)
+            end
+        end
+
+        Reconnect(world)
+        missed = 0
+        for _, tile in pairs(bot:getWorld():getTiles()) do
+            if tile.fg == 0 and tile.x ~= 0 and tile.x ~= 99 and tile.y % 2 == 1 and bot:getWorld():hasAccess(tile.x, tile.y) ~= 0 and tile.x % 6 ~= 0 then
+                missed = missed + 1
+            end
+        end
+        if missed == 0 then break end
     end
 
     webHook(world.." IS DONE")
