@@ -131,8 +131,10 @@ function makeWorld(world)
         if tile.fg == 0 and tile.x ~= 0 and tile.x ~= 99 and tile.y % 2 == 1 and bot:getWorld():hasAccess(tile.x, tile.y) ~= 0 and tile.x % 6 ~= 0 then
             bot:findPath(tile.x, tile.y - 1)
             sleep(100)
-            bot:place(tile.x, tile.y, item_id)
-            sleep(250)
+            while tile.fg == 0 do
+                bot:place(tile.x, tile.y, item_id)
+                sleep(250)
+            end
         end
     end
 
