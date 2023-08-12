@@ -83,7 +83,6 @@ function getBlocks(world)
     for _, obj in pairs(bot:getWorld():getObjects()) do
         if obj.id == item_id then
             bot:findPath(math.floor(obj.x/32), math.floor(obj.y/32))
-            sleep(100)
             while bot:getInventory():getItemCount(item_id) < 1 do
                 sleep(1000)
                 if bot:getInventory():getItemCount(item_id) > 1 then break end
