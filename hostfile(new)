@@ -101,7 +101,7 @@ end
 
 function whh(title, desc)
 
-    wh = Webhook.new("https://discord.com/api/webhooks/1139779296760701049/Tb_q4_Zv_vC1dQZ0hcXilwmwe8p2-JmpJIqiJDV5ccRvQLUrpcFk33I_Dco1ltc-8HH8")
+    wh = Webhook.new("https://discord.com/api/webhooks/1139820230437261397/NwwhJCxPTdy2la4bUPqzl5SCjjV6szrGahOegeGasOQ9DfZD-1IirdF6FHXWQFtut0kX")
     wh.username = "BUYER LOGS"
     wh.avatar_url = "https://static.wikia.nocookie.net/growtopia/images/a/a3/GhostA1.png/revision/latest?cb=20220325130603"
     wh.embed1.use = true
