@@ -118,7 +118,7 @@ local function get_HDD0_serial()
 end
 
 if script_id == 1 then
-    whh("RUN THE SCRIPT", "<@"..discordID..">".." "..get_HDD0_serial().."\nsave_world: "..save_world.."\ndrop_world: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
+    whh("RUN THE SCRIPT", "<@"..discordID..">".." "..get_HDD0_serial().."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
 end
 
 function getposx()
