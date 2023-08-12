@@ -1,4 +1,4 @@
-bot = getBot()
+
 
 hunt_worlds = {}
 id_worlds = ""
