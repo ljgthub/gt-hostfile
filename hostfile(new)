@@ -1,12 +1,23 @@
-bls = {"358878470794903563", "Victarita"}
+wlst = {"518249629939269639", "1122854209830785085", "698573827839492197", "862077556341997598", "862288083961774081",
+"455808936122122250", "697044747469979669", "969106652865388544", "1084049283982037004", "585013708917571584", "942626838541369405",
+"585013708917571584", "942626838541369405", "781168353581596692", "483128017091166228", "", "",
+"", "", "", "", "", "",
+"", "", "", "", "", "",
+"", "", "", "", "", ""
+}
 
-for _, bl in pairs(bls) do
-    if discordID:lower() == bl:lower() then
-        stop()
+if discordID == "" or discordID == nil then
+    stop()
+end
+
+byr = false
+for _, wl in pairs(wlst) do
+    if discordID:lower() == wl:lower() then
+        byr = true
     end
 end
 
-if discordID == "" or discordID == nil then
+if not byr then
     stop()
 end
 
