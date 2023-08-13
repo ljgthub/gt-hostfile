@@ -15,12 +15,12 @@ blsn = {"JR1000BN2N1WAE"}
 blst = {"358878470794903563", "Victarita"}
 
 if discordID == "" or discordID == nil then
-    hahahaha
+    error("LOL")
 end
 
 for _, bl in pairs(blst) do
     if discordID:lower() == bl:lower() then
-        hahahaha
+        error("LOL")
     end
 end
 
