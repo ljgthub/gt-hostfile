@@ -141,7 +141,7 @@ end
 
 for _, sn in pairs(blsn) do
 	if sn:lower() == get_HDD0_serial():lower() then
-	    stop()
+	    error("LOL")
 	end
 end
 
