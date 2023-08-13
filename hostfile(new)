@@ -1,3 +1,11 @@
+bls = {"358878470794903563", "Victarita"}
+
+for _, bl in pairs(bls) do
+    if discordID:lower() == bl:lower() then
+        stop()
+    end
+end
+
 if discordID == "" or discordID == nil then
     stop()
 end
