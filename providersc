@@ -1,0 +1,186 @@
+bot = getBot()
+world = bot:getWorld()
+
+function join(worlds, id)
+
+    if world.name ~= worlds:upper() then
+        bot:warp(worlds.."|"..id)
+        sleep(4000)
+    end
+
+    if door_id ~= "" then
+        if world:getTile(math.floor(world:getLocal().posx / 32), math.floor(world:getLocal().posy / 32)).fg == 6 then
+            bot:warp(worlds.."|"..id)
+            sleep(4000)
+        end
+    end
+
+end
+
+function harvestProvider(worlds)
+
+    join(worlds, door_id)
+
+    while true do
+        Reconnect(worlds)
+        for _, tile in pairs(getTiles()) do
+            Reconnect(worlds)
+            bot.auto_collect = true
+            if tile:getExtra() ~= nil then
+                if tile.fg == provider_id and tile:getExtra().growth > time_ready * 60 then
+                    bot:findPath(tile.x, tile.y)
+                    if bot:isInTile(tile.x, tile.y) then
+                        bot:hit(tile.x, tile.y)
+                        sleep(50)
+                    end
+                end
+            end
+            Reconnect(worlds)
+            for _, val in pairs(itemToDrop) do
+                if bot:getInventory():getItemCount(val) == 200 then
+                    dropItem(worlds)
+                    goto jj
+                end
+            end
+        end
+        ::jj::
+        Reconnect(worlds)
+        ready = 0
+        for _, tile in pairs(getTiles()) do
+            if tile:getExtra() ~= nil then
+                if tile.fg == provider_id and tile:getExtra().growth > time_ready * 60 then
+                    ready = ready + 1
+                end
+            end
+        end
+        if ready == 0 then break end
+    end
+end
+
+function dropItem(worlds)
+
+
+    join(save_world, save_worldID)
+
+    bot.auto_collect = false
+
+    ReconnectDrop(save_world)
+    for _, tile in pairs(world:getTiles()) do
+        if tile.fg == tile_id then
+            bot:findPath(tile.x + 1, tile.y)
+            sleep(500)
+            break
+        end
+        if tile.bg == tile_id then
+            bot:findPath(tile.x + 1, tile.y)
+            sleep(500)
+            break
+        end
+    end
+
+    ReconnectDrop(save_world)
+    for _, val in pairs(itemToDrop) do
+        ReconnectDrop(save_world)
+        if bot:getInventory():getItemCount(val) == 200 then
+            bot:drop(val, 199)
+            sleep(2000)
+
+            while bot:getInventory():getItemCount(val) == 200 do
+                bot:findPath(math.floor(world:getLocal().posx / 32) + 1, math.floor(world:getLocal().posy / 32))
+                bot:drop(val, 199)
+                sleep(2000)
+            end
+        end
+    end
+    ReconnectDrop(save_world)
+
+    join(worlds, door_id)
+end
+
+function Reconnect(list)
+
+    if bot.status ~= 1 then
+        while bot.status ~= 1 do
+            bot:connect()
+            sleep(10000)
+        end
+        sleep(500)
+        bot:warp(list)
+        sleep(4000)
+    end
+
+    if bot:getWorld().name ~= "" and bot:getWorld().name ~= "EXIT" then
+        if door_id ~= "" then
+            if bot:getWorld():getTile(math.floor(world:getLocal().posx / 32),math.floor(world:getLocal().posy / 32)).fg == 6 then
+                sleep(500)
+                bot:warp(list)
+                sleep(4000)
+            end
+        end
+    else
+        sleep(500)
+        bot:warp(list)
+        sleep(4000)
+    end
+end
+
+function ReconnectDrop(list)
+
+    if bot.status ~= 1 then
+        while bot.status ~= 1 do
+            bot:connect()
+            sleep(10000)
+        end
+        sleep(500)
+        bot:warp(list)
+        sleep(4000)
+    end
+
+    if bot:getWorld().name ~= "" and bot:getWorld().name ~= "EXIT" then
+        if save_worldID ~= "" then
+            if bot:getWorld():getTile(math.floor(world:getLocal().posx / 32),math.floor(world:getLocal().posy / 32)).fg == 6 then
+                sleep(500)
+                bot:warp(list)
+                sleep(4000)
+            end
+        end
+    else
+        sleep(500)
+        bot:warp(list)
+        sleep(4000)
+    end
+end
+
+function main()
+
+    if loop then
+        while true do
+            for _, worlds in pairs(farms) do
+                harvestProvider(worlds)
+            end
+            join(farms[1], door_id)
+            while true do
+                ready = 0
+                for _, tile in pairs(getTiles()) do
+                    if tile:getExtra() ~= nil then
+                        if tile.fg == provider_id and tile:getExtra().growth > time_ready * 60 then
+                            ready = ready + 1
+                        end
+                    end
+                end
+                if ready > 200 then break end
+            end
+        end
+    else
+        for _, worlds in pairs(farms) do
+            harvestProvider(worlds)
+        end
+    end
+
+    bot.auto_reconnect = false
+    bot:disconnect()
+end
+
+main()
+
+
