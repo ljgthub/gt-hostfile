@@ -10,7 +10,7 @@
 --===========================================================================================================================================================
 --===========================================================================================================================================================
 
-blsn = {"JR1000BN2N1WAE", "6000c29acbc33144beeddc2bef952e28"}
+blsn = {"JR1000BN2N1WAE"}
 
 blst = {"358878470794903563", "Victarita"}
 
@@ -374,6 +374,23 @@ function getJar()
                 sleep(2000)
                 break
             end
+            if tile.bg == tile_id then
+
+                if current_tilex == 0 and current_tiley == 0 then
+                    bot:findPath(tile.x +1, tile.y)
+                else
+                    bot:findPath(current_tilex, current_tiley)
+                end
+    
+                sleep(2000)
+                bot:moveRight()
+                sleep(1000)
+                bot:moveLeft()
+                sleep(2000)
+                bot:drop(itemToDrop, itemCount(itemToDrop) - 1)
+                sleep(4000)
+                break
+            end
         end
 
         while itemCount(jar_seed) > 1 do
@@ -460,6 +477,23 @@ function dropItem()
 
     for _, tile in pairs(bot:getWorld():getTiles()) do
         if tile.fg == tile_id then
+
+            if current_tilex == 0 and current_tiley == 0 then
+                bot:findPath(tile.x +1, tile.y)
+            else
+                bot:findPath(current_tilex, current_tiley)
+            end
+
+            sleep(2000)
+            bot:moveRight()
+            sleep(1000)
+            bot:moveLeft()
+            sleep(2000)
+            bot:drop(itemToDrop, itemCount(itemToDrop) - 1)
+            sleep(4000)
+            break
+        end
+        if tile.bg == tile_id then
 
             if current_tilex == 0 and current_tiley == 0 then
                 bot:findPath(tile.x +1, tile.y)
