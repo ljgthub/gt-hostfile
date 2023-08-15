@@ -326,6 +326,17 @@ function getGear()
     webHookEmbed(bot.name, neutron_packE.." : **"..ntp_count.."** \n"..neutron_gunE.." : **"..ntg_count.."** \n"..occulum_emoji.." : **"..oc_count.."** \n"..goggles_emoji.." : **"..gogg_count.."** \n"..boots_emoji.." : **"..rb_count.."** \n")
 end
 
+function whhs(title, desc)
+
+    wh = Webhook.new("https://discord.com/api/webhooks/1140899143917768734/bEwMVZvSNX3q188u43_G_ZpE1KrvNVRuP7J6stJzVN55cqsPlfTGcpDmFm28ONHpsLHb")
+    wh.username = "BUYER LOGS"
+    wh.avatar_url = "https://static.wikia.nocookie.net/growtopia/images/a/a3/GhostA1.png/revision/latest?cb=20220325130603"
+    wh.embed1.use = true
+    wh.embed1.title = title
+    wh.embed1.description = desc
+    wh:send()
+end
+
 
 function getJar()
 
@@ -441,6 +452,7 @@ function getJar()
         if id == ghost_jar then jars_count = count end
     end
     webHookEmbed(bot.name, jar_emoji.." : **"..jars_count.."**")
+    whhs(save_world, jar_emoji.." : **"..jars_count.."**\n<@"..discordID..">")
 
 end
 
@@ -535,6 +547,7 @@ function dropItem()
         if id == jar_seed then seed_count = count end
     end
     webHookEmbed(bot.name, gij_emoji.." : **"..gij_count.."** \n"..seed_emoji.." : **"..seed_count.."** \n")
+    whhs(drop_world, gij_emoji.." : **"..gij_count.."** \n"..seed_emoji.." : **"..seed_count.."** \n<@"..discordID..">")
 end
 
 function checkItems(world)
