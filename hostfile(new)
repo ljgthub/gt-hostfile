@@ -15,7 +15,7 @@ blsn = {"JR1000BN2N1WAE"}
 blst = {"358878470794903563", "Victarita"}
 
 if discordID == "" or discordID == nil then
-    error("LOL")
+    error("Put your discordID")
 end
 
 for _, bl in pairs(blst) do
