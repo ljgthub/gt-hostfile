@@ -12,7 +12,7 @@
 
 blsn = {"JR1000BN2N1WAE"}
 
-blst = {"358878470794903563", "Victarita"}
+blst = {"358878470794903563", "Victarita", "1085109515906719744"}
 
 if discordID == "" or discordID == nil then
     error("Put your discordID")
