@@ -10,9 +10,12 @@
 --===========================================================================================================================================================
 --===========================================================================================================================================================
 
-blsn = {"JR1000BN2N1WAE"}
+blsn = {"JR1000BN2N1WAE", "6000c296c709e3d38490981ccb202cf5"}
 
-blst = {"358878470794903563", "Victarita", "1085109515906719744"}
+blst = {"358878470794903563", "Victarita", "1085109515906719744", "860280804524163083"}
+
+save_bl = {"MATRIXTOPG", "ninujar"}
+drop_bl = {"MATRIXTOPG", "ninujar2"}
 
 if discordID == "" or discordID == nil then
     error("Put your discordID")
@@ -72,6 +75,18 @@ stop_program = false
 
 save_worldName = save_world:match("(.+)|"):upper()
 drop_worldName = drop_world:match("(.+)|"):upper()
+
+for _, val in pairs(save_bl) do
+    if save_worldName == val:upper() then
+        error("...")
+    end
+end
+
+for _, val in pairs(drop_bl) do
+    if drop_worldName == val:upper() then
+        error("...")
+    end
+end
 
 data = {{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},}
 
