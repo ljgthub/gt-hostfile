@@ -20,7 +20,7 @@ end
 
 for _, bl in pairs(blst) do
     if discordID:lower() == bl:lower() then
-        error("LOL")
+        error("...")
     end
 end
 
