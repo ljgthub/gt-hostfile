@@ -76,6 +76,9 @@ stop_program = false
 save_worldName = save_world:match("(.+)|"):upper()
 drop_worldName = drop_world:match("(.+)|"):upper()
 
+last_x = 0
+last_y = 0
+
 for _, val in pairs(save_bl) do
     if save_worldName == val:upper() then
         error("...")
@@ -167,20 +170,20 @@ end
 function getposx()
 
     if not getBot():getWorld():getLocal() then
-        sleep(200)
-        return
+        return last_x
     end
 
+    last_x = math.floor(getBot():getWorld():getLocal().posx/32)
     return math.floor(getBot():getWorld():getLocal().posx/32)
 end
 
 function getposy()
 
     if not getBot():getWorld():getLocal() then
-        sleep(200)
-        return
+        return last_y
     end
 
+    last_y = math.floor(getBot():getWorld():getLocal().posy/32)
     return math.floor(getBot():getWorld():getLocal().posy/32)
 end
 
@@ -275,11 +278,6 @@ function getGear()
 
     checkWorld(save_world)
 
-    if not getBot():getWorld():getLocal() then
-        sleep(200)
-        return
-    end
-
     for _, gear in pairs(gears) do
 
         if itemCount(gear) == 1 then
@@ -359,11 +357,6 @@ function getJar()
 
     checkWorld(save_world)
 
-    if not getBot():getWorld():getLocal() then
-        sleep(200)
-        return
-    end
-
     local jar_count = 0
     for id, obj in pairs(getBot():getWorld():getObjects()) do
         if obj.id == ghost_jar then
@@ -374,11 +367,6 @@ function getJar()
     if jar_count < 1 then
         webHookEmbed(bot.name, " NO MORE JARS ")
         checkWorld(drop_world)
-
-        if not getBot():getWorld():getLocal() then
-            sleep(200)
-            return
-        end
 
         for _, tile in pairs(bot:getWorld():getTiles()) do
             if tile.fg == tile_id then
@@ -450,16 +438,26 @@ function getJar()
 
     if last_obj.id == ghost_jar then
         sleep(500)
-        bot:findPath(math.floor(last_obj.x/32) +1,math.floor(last_obj.y/32))
+        bot:findPath(math.floor(last_obj.x/32) + 1,math.floor(last_obj.y/32))
         sleep(2000)
-        bot:collect(1, 500)
+        bot:collect(2, 100)
         sleep(2000)
         bot:moveRight()
         sleep(1000)
         bot:moveLeft()
         sleep(2000)
         bot:drop(ghost_jar, itemCount(ghost_jar) - max_jar)
-        sleep(4000)
+        sleep(3000)
+        while bot:getInventory():getItemCount(ghost_jar) - max_jar ~= 0 do
+            bot:moveRight()
+            sleep(1000)
+            bot:moveRight()
+            sleep(1000)
+            bot:moveLeft()
+            sleep(2000)
+            bot:drop(ghost_jar, itemCount(ghost_jar) - max_jar)
+            sleep(3000)
+        end
     end
 
     local jars_count = 0
@@ -502,19 +500,15 @@ function dropItem()
 
     checkWorld(drop_world)
 
-    if not getBot():getWorld():getLocal() then
-        sleep(200)
-        return
-    end
-
     for _, tile in pairs(bot:getWorld():getTiles()) do
         if tile.fg == tile_id then
 
             if current_tilex == 0 and current_tiley == 0 then
-                bot:findPath(tile.x +1, tile.y)
-            else
-                bot:findPath(current_tilex, current_tiley)
+                current_tilex = tile.x+1
+                current_tiley = tile.y
             end
+
+            bot:findPath(current_tilex, current_tiley)
 
             sleep(2000)
             bot:moveRight()
@@ -528,10 +522,11 @@ function dropItem()
         if tile.bg == tile_id then
 
             if current_tilex == 0 and current_tiley == 0 then
-                bot:findPath(tile.x +1, tile.y)
-            else
-                bot:findPath(current_tilex, current_tiley)
+                current_tilex = tile.x+1
+                current_tiley = tile.y
             end
+
+            bot:findPath(current_tilex, current_tiley)
 
             sleep(2000)
             bot:moveRight()
