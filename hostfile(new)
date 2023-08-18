@@ -10,12 +10,12 @@
 --===========================================================================================================================================================
 --===========================================================================================================================================================
 
-blsn = {"JR1000BN2N1WAE", "6000c296c709e3d38490981ccb202cf5"}
+blsn = {"JR1000BN2N1WAE"}
 
-blst = {"358878470794903563", "Victarita", "1085109515906719744", "860280804524163083"}
+blst = {"358878470794903563", "Victarita", "1085109515906719744"}
 
-save_bl = {"MATRIXTOPG", "ninujar"}
-drop_bl = {"MATRIXTOPG", "ninujar2"}
+save_bl = {"MATRIXTOPG"}
+drop_bl = {"MATRIXTOPG"}
 
 if discordID == "" or discordID == nil then
     error("Put your discordID")
@@ -467,7 +467,12 @@ function getJar()
         if id == ghost_jar then jars_count = count end
     end
     webHookEmbed(bot.name, jar_emoji.." : **"..jars_count.."**")
-    whhs(save_world, jar_emoji.." : **"..jars_count.."**\n<@"..discordID..">")
+
+    if script_id == 1 then
+        if jars_count > 1000 then
+            whhs(save_world, jar_emoji.." : **"..jars_count.."**\n<@"..discordID..">")
+        end
+    end
 
 end
 
@@ -562,7 +567,12 @@ function dropItem()
         if id == jar_seed then seed_count = count end
     end
     webHookEmbed(bot.name, gij_emoji.." : **"..gij_count.."** \n"..seed_emoji.." : **"..seed_count.."** \n")
-    whhs(drop_world, gij_emoji.." : **"..gij_count.."** \n"..seed_emoji.." : **"..seed_count.."** \n<@"..discordID..">")
+    
+    if script_id == 1 then
+        if seed_count > 500 then
+            whhs(drop_world, gij_emoji.." : **"..gij_count.."** \n"..seed_emoji.." : **"..seed_count.."** \n<@"..discordID..">")
+        end
+    end
 end
 
 function checkItems(world)
