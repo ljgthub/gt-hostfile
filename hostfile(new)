@@ -357,10 +357,26 @@ function getJar()
 
     checkWorld(save_world)
 
-    local jar_count = 0
-    for id, obj in pairs(getBot():getWorld():getObjects()) do
-        if obj.id == ghost_jar then
-            jar_count = jar_count + obj.count
+    if bot:getWorld().name == save_worldName then
+        jar_count = 0
+        for id, obj in pairs(getBot():getWorld():getObjects()) do
+            if obj.id == ghost_jar then
+                jar_count = jar_count + obj.count
+            end
+        end
+    else
+        bot:warp(save_world)
+        sleep(5000)
+        if bot:getWorld():getTile(getposx(), getposy()).fg == 6 then
+            sleep(500)
+            bot:warp(world)
+            sleep(5000)
+        end
+        jar_count = 5
+        for id, obj in pairs(getBot():getWorld():getObjects()) do
+            if obj.id == ghost_jar then
+                jar_count = jar_count + obj.count
+            end
         end
     end
 
@@ -370,13 +386,13 @@ function getJar()
 
         for _, tile in pairs(bot:getWorld():getTiles()) do
             if tile.fg == tile_id then
-    
+
                 if current_tilex == 0 and current_tiley == 0 then
                     bot:findPath(tile.x +1, tile.y)
                 else
                     bot:findPath(current_tilex, current_tiley)
                 end
-    
+
                 sleep(2000)
                 bot:moveRight()
                 sleep(1000)
