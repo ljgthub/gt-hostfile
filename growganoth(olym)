@@ -61,7 +61,7 @@ function growganoth()
 
         if trash then
             for _, trashes in pairs(trash_list) do
-                if findItem(trash) >= 1 then
+                if findItem(trashes) >= 1 then
                     sendPacket("action|trash\n|itemID|"..trashes, 2)
                     sleep(2000)
                 end
@@ -74,23 +74,53 @@ function growganoth()
 
         if side:lower() == "left" then
             findPath(7, 37)
-            sleep(1000)
-            enter()
-            sleep(4000)
-            findPath(3, 23)
-            sleep(1000)
-            punch(3, 23)
+            sleep(8000)
+            while math.floor(bot.x/32) ~= 7 and math.floor(bot.y/32) ~= 37 do
+                findPath(7, 37)
+                sleep(1000)
+            end
+            while math.floor(bot.x/32) == 7 and math.floor(bot.y/32) == 37 do
+                enter()
+                sleep(1000)
+            end
+            while math.floor(bot.x/32) == 7 and math.floor(bot.y/32) == 39 do
+                sleep(3000)
+            end
+            while math.floor(bot.x/32) ~= 3 and math.floor(bot.y/32) ~= 23 do
+                findPath(3, 23)
+                sleep(1000)
+            end
+            while math.floor(bot.x/32) == 3 and math.floor(bot.y/32) == 23 do
+                punch(3,23)
+                sleep(1000)
+            end
         elseif side:lower() == "right" then
             findPath(92, 37)
-            sleep(1000)
-            enter()
-            sleep(4000)
-            findPath(96, 23)
-            sleep(1000)
-            punch(96, 23)
+            sleep(8000)
+            while math.floor(bot.x/32) ~= 92 and math.floor(bot.y/32) ~= 37 do
+                findPath(92, 37)
+                sleep(1000)
+            end
+            while math.floor(bot.x/32) == 92 and math.floor(bot.y/32) == 37 do
+                enter()
+                sleep(1000)
+            end
+            while math.floor(bot.x/32) == 92 and math.floor(bot.y/32) == 39 do
+                sleep(3000)
+            end
+            while math.floor(bot.x/32) ~= 96 and math.floor(bot.y/32) ~= 23 do
+                findPath(96, 23)
+                sleep(1000)
+            end
+            while math.floor(bot.x/32) == 96 and math.floor(bot.y/32) == 23 do
+                punch(96,23)
+                sleep(1000)
+            end
         end
     end
 end
 
 
 growganoth()
+
+
