@@ -1,0 +1,96 @@
+bot = getBot()
+
+
+function getTicket()
+
+    if bot.world ~= storage_world:upper() then
+        warp(storage_world, storage_id)
+    end
+
+    for _, obj in pairs(getObjects()) do
+        if obj.id == 1898 then
+            findPath(math.floor(obj.x/32), math.floor(obj.y/32))
+            sleep(1000)
+            collect(2)
+            sleep(1000)
+        end
+
+        if findItem(1898) > 1 then break end
+    end
+
+end
+
+function dropPrize(items)
+
+    if bot.world ~= save_world:upper() then
+        warp(storage_world, storage_id)
+    end
+
+    while findItem(items) >= 1 do
+        drop(items)
+        sleep(2000)
+
+        if findItem(items) == 0 then break end
+        move(1, 0)
+    end
+
+end
+
+function warp(a,b)
+    sendPacket("action|join_request\nname|"..a.."|"..b.."\ninvitedWorld|0",3)
+    sleep(4000)
+end
+
+function growganoth()
+
+    if bot.world:gsub('%d','') ~= "CARNIVAL" then
+        warp("CARNIVAL", "")
+    end
+
+    while true do
+
+        if findItem(1898) < 1 then
+            getTicket()
+        end
+
+        for _, items in pairs(drop_list) do
+            if findItem(items) >= 1 then
+                dropPrize(items)
+            end
+        end
+
+        if trash then
+            for _, trashes in pairs(trash_list) do
+                if findItem(trash) >= 1 then
+                    sendPacket("action|trash\n|itemID|"..trashes, 2)
+                    sleep(2000)
+                end
+            end
+        end
+
+        if bot.world:gsub('%d','') ~= "CARNIVAL" then
+            warp("CARNIVAL", "")
+        end
+
+        if side:lower() == "left" then
+            findPath(7, 37)
+            sleep(1000)
+            enter()
+            sleep(4000)
+            findPath(3, 23)
+            sleep(1000)
+            punch(3, 23)
+        elseif side:lower() == "right" then
+            findPath(92, 37)
+            sleep(1000)
+            enter()
+            sleep(4000)
+            findPath(96, 23)
+            sleep(1000)
+            punch(96, 23)
+        end
+    end
+end
+
+
+growganoth()
