@@ -93,6 +93,12 @@ end
 
 data = {{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},}
 
+
+if ignoreGems then
+    bot.ignore_gems = true
+end
+
+
 function webHook(title, desc)
 
     if true then return end
@@ -167,24 +173,27 @@ if script_id == 1 then
     whh("RUN THE SCRIPT", "<@"..discordID..">".." "..get_HDD0_serial().."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
 end
 
+botx = 0
+boty = 0
+
 function getposx()
-
-    if not getBot():getWorld():getLocal() then
-        return last_x
+    if bot:getWorld().name ~= "" and bot.getWorld().name ~= "EXIT" then
+        if bot:getWorld():getLocal() then
+            botx = math.floor(getBot():getWorld():getLocal().posx/32)
+            return botx
+        end
     end
-
-    last_x = math.floor(getBot():getWorld():getLocal().posx/32)
-    return math.floor(getBot():getWorld():getLocal().posx/32)
+    return botx
 end
 
 function getposy()
-
-    if not getBot():getWorld():getLocal() then
-        return last_y
+    if bot:getWorld().name ~= "" and bot.getWorld().name ~= "EXIT" then
+        if bot:getWorld():getLocal() then
+            boty = math.floor(getBot():getWorld():getLocal().posy/32)
+            return boty
+        end
     end
-
-    last_y = math.floor(getBot():getWorld():getLocal().posy/32)
-    return math.floor(getBot():getWorld():getLocal().posy/32)
+    return boty
 end
 
 function bot:findPath(x, y)
@@ -262,11 +271,14 @@ end
 
 function getGear()
 
+    ReconnectStorage(save_world)
     bot.auto_collect = false
 
     for _, bots in pairs(getBots()) do
+        ReconnectStorage(save_world)
         local g = 1
         while bots:getWorld().name == save_worldName:upper() and bots.name ~= bot.name do
+            ReconnectStorage(save_world)
             sleep(3000)
             g = g + 1
             if g >= 10 then
@@ -276,10 +288,12 @@ function getGear()
         end
     end
 
+    ReconnectStorage(save_world)
     checkWorld(save_world)
 
     for _, gear in pairs(gears) do
 
+        ReconnectStorage(save_world)
         if itemCount(gear) == 1 then
             if not bot:getInventory():getItem(gear).isActive then
                 sleep(500)
@@ -289,7 +303,7 @@ function getGear()
         end
 
         while itemCount(gear) ~= 1 do
-
+        ReconnectStorage(save_world)
         for _, obj in pairs(bot:getWorld():getObjects()) do
             if obj.id == gear then
                 if not bot:isInTile(math.floor(obj.x/32) +1, math.floor(obj.y/32)) then
@@ -310,6 +324,7 @@ function getGear()
             sleep(4000)
         end
 
+        ReconnectStorage(save_world)
         if itemCount(gear) > 0 then
             if not bot:getInventory():getItem(gear).isActive then
                 sleep(500)
@@ -355,6 +370,7 @@ function getJar()
 
     bot.auto_collect = false
 
+    ReconnectStorage(save_world)
     checkWorld(save_world)
 
     if bot:getWorld().name == save_worldName then
@@ -380,13 +396,17 @@ function getJar()
         end
     end
 
+    ReconnectStorage(save_world)
+
     if jar_count < 1 then
         webHookEmbed(bot.name, " NO MORE JARS ")
         checkWorld(drop_world)
 
+        ReconnectStorage(save_world)
         for _, tile in pairs(bot:getWorld():getTiles()) do
             if tile.fg == tile_id then
 
+                ReconnectStorage(save_world)
                 if current_tilex == 0 and current_tiley == 0 then
                     bot:findPath(tile.x +1, tile.y)
                 else
@@ -406,6 +426,7 @@ function getJar()
             end
             if tile.bg == tile_id then
 
+                ReconnectStorage(save_world)
                 if current_tilex == 0 and current_tiley == 0 then
                     bot:findPath(tile.x +1, tile.y)
                 else
@@ -423,6 +444,7 @@ function getJar()
             end
         end
 
+        ReconnectStorage(save_world)
         while itemCount(jar_seed) > 1 do
             bot:moveRight()
             sleep(1000)
@@ -445,6 +467,7 @@ function getJar()
         return
     end
 
+    ReconnectStorage(save_world)
     for _, obj in pairs(bot:getWorld():getObjects()) do
 
         if obj.id == ghost_jar then
@@ -492,6 +515,7 @@ end
 
 function dropItem()
 
+    ReconnectStorage(drop_world)
     if itemCount(ghost_in_a_jar) < save_countGIJ and itemCount(jar_seed) < save_countseed then return end
 
     if itemCount(ghost_in_a_jar) >= save_countGIJ then
@@ -505,6 +529,7 @@ function dropItem()
     for _, bots in pairs(getBots()) do
         local g = 1
         while bots:getWorld().name == drop_worldName:upper() and bots.name ~= bot.name do
+            ReconnectStorage(drop_world)
             sleep(3000)
             g = g + 1
             if g >= 10 then
@@ -515,10 +540,12 @@ function dropItem()
     end
 
     checkWorld(drop_world)
+    ReconnectStorage(drop_world)
 
     for _, tile in pairs(bot:getWorld():getTiles()) do
         if tile.fg == tile_id then
 
+            ReconnectStorage(drop_world)
             if current_tilex == 0 and current_tiley == 0 then
                 current_tilex = tile.x+1
                 current_tiley = tile.y
@@ -537,6 +564,7 @@ function dropItem()
         end
         if tile.bg == tile_id then
 
+            ReconnectStorage(drop_world)
             if current_tilex == 0 and current_tiley == 0 then
                 current_tilex = tile.x+1
                 current_tiley = tile.y
@@ -555,6 +583,7 @@ function dropItem()
         end
     end
 
+    ReconnectStorage(drop_world)
     while itemCount(itemToDrop) > 1 do
         bot:moveRight()
         sleep(1000)
@@ -569,6 +598,7 @@ function dropItem()
         sleep(4000)
     end
 
+    ReconnectStorage(drop_world)
     local jars_count  = 0
     local gij_count   = 0
     local seed_count  = 0
@@ -588,6 +618,7 @@ end
 
 function checkItems(world)
 
+    ReconnectGhost(world)
     for _, gear in pairs(gears) do
 
         if itemCount(gear) ~= 1 then
@@ -629,7 +660,6 @@ function checkItems(world)
         while bot.status ~= BotStatus.online do
             bot:connect()
             sleep(10000)
-
         end
     end
 end
@@ -772,10 +802,12 @@ end
 
 function hunt(world)
 
+    ReconnectGhost(world)
     while bot.status ~= BotStatus.online do sleep(10000) end
 
     dropItem()
     checkItems(world)
+    ReconnectGhost(world)
 
     if stop_program then return end
 
@@ -789,8 +821,10 @@ function hunt(world)
     if npc_count < 2 then return end
 
     local start_time = os.time()
+    ReconnectGhost(world)
     while true do
 
+        ReconnectGhost(world)
         if bot.status ~= BotStatus.online then return end
 
         dropItem()
@@ -798,6 +832,7 @@ function hunt(world)
         checkStatus()
         isRelog()
         timeRelog()
+        ReconnectGhost(world)
 
         bot.auto_collect = true
 
@@ -824,12 +859,14 @@ function hunt(world)
 
         if npc_count < 2 then break end
 
+        ReconnectGhost(world)
         for _, npc in pairs(bot:getWorld():getNPCs()) do
 
             dropItem()
             checkItems(world)
             isRelog()
             timeRelog()
+            ReconnectGhost(world)
 
             bot.auto_collect = true
 
@@ -878,8 +915,10 @@ function hunt(world)
                 max_place = 0
                 iterato = 1
                 iterator2 = 1
+                ReconnectGhost(world)
                 while true do
 
+                    ReconnectGhost(world)
                     max_fp = 0
                     if bot.status ~= BotStatus.online then return end
                     if bot:getWorld():getNPC(npc.id) == nil then break end
@@ -887,6 +926,7 @@ function hunt(world)
                     if math.floor(math.sqrt((getposx() - math.floor(bot:getWorld():getNPC(npc.id).x / 32)) ^ 2 + (getposy() - math.floor(bot:getWorld():getNPC(npc.id).y / 32)) ^ 2)) > 4 then
                         while true do
 
+                            ReconnectGhost(world)
                             if bot.status ~= BotStatus.online then return end
 
                             if bot:getWorld():getNPC(npc.id) == nil then break end
@@ -998,6 +1038,38 @@ function hunt(world)
         end
         ::breakLoop::
         sleep(100)
+    end
+end
+
+function ReconnectGhost(world)
+    if bot.status ~= 1 then
+        while bot.status ~= 1 do
+            bot:connect()
+            sleep(10000)
+        end
+        bot:warp(world)
+    end
+    if id_worlds ~= "" or id_worlds ~= nil then
+        if bot:getWorld().name ~= "" and bot:getWorld().name ~= "EXIT" then
+            if bot:getWorld():getTile(getposx(),getposy()).fg == 6 then
+                bot:warp(world)
+            end
+        end
+    end
+end
+
+function ReconnectStorage(world)
+    if bot.status ~= 1 then
+        while bot.status ~= 1 do
+            bot:connect()
+            sleep(10000)
+        end
+        bot:warp(world)
+    end
+    if bot:getWorld().name ~= "" and bot:getWorld().name ~= "EXIT" then
+        if bot:getWorld():getTile(getposx(),getposy()).fg == 6 then
+            bot:warp(world)
+        end
     end
 end
 
