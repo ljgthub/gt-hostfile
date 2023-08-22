@@ -1,0 +1,183 @@
+bot = getBot()
+world = bot:getWorld()
+
+function getBotPos()
+    worldName = tostring(world.name)
+    if worldName ~= "" and worldName ~= "EXIT" then
+        localbot = world:getLocal()
+        if localbot then
+            Botx = math.floor(localbot.posx / 32)
+            Boty = math.floor(localbot.posy / 32)
+        end
+    end
+end
+
+
+
+
+function getTicket()
+
+    if world.name ~= storage_world:upper() then
+        join(storage_world, storage_id)
+    end
+
+    getBotPos()
+    if getTile(Botx, Boty).fg == 6 then
+        join(storage_world, storage_id)
+    end
+
+    bot.auto_collect = true
+
+    getBotPos()
+    for _, obj in pairs(getObjects()) do
+        if obj.id == 1898 then
+            bot:findPath(math.floor(obj.x/32), math.floor(obj.y/32))
+            sleep(1000)
+            sleep(1000)
+        end
+
+        if bot:getInventory():getItemCount(1898) > 1 then break end
+    end
+
+end
+
+function dropPrize(items)
+
+    bot.auto_collect = false
+
+    if world.name ~= save_world:upper() then
+        join(save_world, save_id)
+    end
+
+    if world:getTile(Botx, Boty).fg == 6 then
+        join(save_world, save_id)
+    end
+
+    while bot:getInventory():getItemCount(items) >= 1 do
+        bot:drop(items, bot:getInventory():getItemCount(items))
+        sleep(2000)
+
+        if bot:getInventory():getItemCount(items) == 0 then break end
+        getBotPos()
+        bot:findPath(Botx + 1, Boty)
+    end
+
+end
+
+function join(a,b)
+    bot:warp(a.."|"..b)
+    sleep(4000)
+end
+
+function growganoth()
+
+    if world.name:gsub('%d','') ~= "CARNIVAL" then
+        join("CARNIVAL", "")
+    end
+
+    while true do
+
+        if bot:getInventory():getItemCount(1898) < 1 then
+            getTicket()
+        end
+
+        for _, items in pairs(drop_list) do
+            if bot:getInventory():getItemCount(items) >= 1 then
+                dropPrize(items)
+            end
+        end
+
+        if trash then
+            for _, trashes in pairs(trash_list) do
+                if bot:getInventory():getItemCount(trashes) >= 1 then
+                    bot:trash(trashes, bot:getInventory():getItemCount(trashes))
+                    sleep(2000)
+                end
+            end
+        end
+
+        if world.name:gsub('%d','') ~= "CARNIVAL" then
+            join("CARNIVAL", "")
+        end
+
+        if side == "left" then
+            getBotPos()
+            if world:getTile(Botx, Boty).fg == 6 then
+                bot:findPath(Botx - 5, Boty)
+                sleep(1000)
+                bot:findPath(7, 37)
+                sleep(8000)
+                getBotPos()
+            end
+            while Botx ~= 7 and Boty ~= 37 do
+                bot:findPath(7, 37)
+                sleep(1000)
+                getBotPos()
+            end
+            while Botx == 7 and Boty == 37 do
+                bot:enter()
+                sleep(1000)
+                getBotPos()
+            end
+            while Botx == 7 and Boty == 39 do
+                sleep(3000)
+                getBotPos()
+            end
+            getBotPos()
+            while Botx ~= 3 or Boty ~= 23 do
+                bot:findPath(3,23)
+                sleep(1000)
+                getBotPos()
+            end
+            while Botx == 3 and Boty == 23 do
+                getBotPos()
+                bot:hit(Botx, Boty)
+                sleep(1000)
+                getBotPos()
+            end
+        elseif side == "right" then
+            getBotPos()
+            if world:getTile(Botx, Boty).fg == 6 then
+                bot:findPath(Botx + 5, Boty)
+                sleep(1000)
+                bot:findPath(92, 37)
+                sleep(8000)
+                getBotPos()
+            end
+            while Botx ~= 92 and Boty ~= 37 do
+                bot:findPath(92, 37)
+                sleep(1000)
+                getBotPos()
+            end
+            while Botx == 92 and Boty == 37 do
+                sleep(500)
+                bot:enter()
+                sleep(1000)
+                getBotPos()
+            end
+            while Botx == 92 and Boty == 39 do
+                print("sleeping")
+                sleep(3000)
+                getBotPos()
+            end
+            getBotPos()
+            while Botx ~= 96 or Boty ~= 23 do
+                print("pathfind")
+                bot:findPath(96,23)
+                sleep(1000)
+                getBotPos()
+            end
+            while Botx == 96 and Boty == 23 do
+                getBotPos()
+                bot:hit(Botx, Boty)
+                sleep(1000)
+                getBotPos()
+            end
+        end
+    end
+end
+
+
+growganoth()
+
+
