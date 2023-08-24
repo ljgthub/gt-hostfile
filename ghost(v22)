@@ -10,7 +10,6 @@
 --===========================================================================================================================================================
 --===========================================================================================================================================================
 
-
 -- EMOJIS
 bot_emoji     = "<:bot2:1141394354372624484>"
 globe_emoji   = "<a:globe27:1140999010895794297>"
@@ -445,7 +444,7 @@ function getJar()
             bot:warp(save_world)
             sleep(6000)
         end
-        jar_count = 0
+        jar_count = 5
         ReconnectStorage(save_world)
         for id, obj in pairs(getBot():getWorld():getObjects()) do
             if obj.id == ghost_jar then
@@ -482,13 +481,13 @@ function getJar()
         )
         checkWorld(drop_world)
 
-        ReconnectStorage(save_world)
+        ReconnectStorage(drop_world)
 
         if itemCount(jar_seed) > 1 or itemCount(ghost_in_a_jar) > 1 then
         for _, tile in pairs(bot:getWorld():getTiles()) do
             if tile.fg == tile_id then
 
-                ReconnectStorage(save_world)
+                ReconnectStorage(drop_world)
                 if current_tilex == 0 and current_tiley == 0 then
                     current_tilex = tile.x+1
                     current_tiley = tile.y
@@ -505,7 +504,7 @@ function getJar()
             end
             if tile.bg == tile_id then
 
-                ReconnectStorage(save_world)
+                ReconnectStorage(drop_world)
                 if current_tilex == 0 and current_tiley == 0 then
                     current_tilex = tile.x+1
                     current_tiley = tile.y
@@ -521,7 +520,7 @@ function getJar()
         end
         end
 
-        ReconnectStorage(save_world)
+        ReconnectStorage(drop_world)
         while itemCount(jar_seed) > 1 do
             bot:moveRight()
             sleep(2000)
@@ -751,9 +750,9 @@ function checkItems(world)
         getJar()
     end
 
-    ReconnectGhost(world)
-
     if stop_program then return end
+
+    ReconnectGhost(world)
 
     if bot:getWorld().name ~= world:upper() then
         sleep(3000)
@@ -938,11 +937,12 @@ end
 
 function hunt(world)
 
+    if stop_program then return end
+
     ReconnectGhost(world)
 
     dropItem()
     checkItems(world)
-    if stop_program then return end
 
     if not bot:getWorld():getLocal() then
         bot:disconnect()
