@@ -483,7 +483,7 @@ function getJar()
 
         ReconnectStorage(drop_world)
 
-        if itemCount(jar_seed) > 1 or itemCount(ghost_in_a_jar) > 1 then
+        if itemCount(jar_seed) > 1 or itemCount(ghost_in_a_jar) > 1 or itemCount(6080) > 1 then
         for _, tile in pairs(bot:getWorld():getTiles()) do
             if tile.fg == tile_id then
 
@@ -496,9 +496,11 @@ function getJar()
                 bot:findPath(current_tilex, current_tiley)
 
                 sleep(2000)
-                bot:drop(jar_seed, itemCount(jar_seed) - 1)
+                bot:drop(jar_seed, itemCount(jar_seed))
                 sleep(4000)
-                bot:drop(ghost_in_a_jar, itemCount(ghost_in_a_jar) - 1)
+                bot:drop(ghost_in_a_jar, itemCount(ghost_in_a_jar))
+                sleep(4000)
+                bot:drop(6080, itemCount(6080))
                 sleep(4000)
                 break
             end
@@ -513,7 +515,11 @@ function getJar()
                 bot:findPath(current_tilex, current_tiley)
 
                 sleep(2000)
-                bot:drop(itemToDrop, itemCount(itemToDrop) - 1)
+                bot:drop(jar_seed, itemCount(jar_seed))
+                sleep(4000)
+                bot:drop(ghost_in_a_jar, itemCount(ghost_in_a_jar))
+                sleep(4000)
+                bot:drop(6080, itemCount(6080))
                 sleep(4000)
                 break
             end
