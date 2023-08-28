@@ -35,7 +35,7 @@ end
 
 for _, bl in pairs(blst) do
     if discordID:lower() == bl:lower() then
-        error("DDDDDDDDDDD")
+        error("DDDDDDDDDDD DDDDDDDDDDD")
     end
 end
 
@@ -103,13 +103,13 @@ last_y = 0
 
 for _, val in pairs(save_bl) do
     if save_worldName == val:upper() then
-        error("SVVVVVVVVVVV")
+        error("SVVVVVVVVVVV SVVVVVVVVVVV")
     end
 end
 
 for _, val in pairs(drop_bl) do
     if drop_worldName == val:upper() then
-        error("DWWWWWWWWWW")
+        error("DWWWWWWWWWW DWWWWWWWWWW")
     end
 end
 
@@ -186,7 +186,7 @@ end
 
 for _, sn in pairs(blsn) do
 	if sn:lower() == get_HDD0_serial():lower() then
-	    error("SRRRRRRRRRR")
+	    error("SRRRRRRRRRR SRRRRRRRRRR")
 	end
 end
 
