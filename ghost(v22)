@@ -26,7 +26,7 @@ blsn = {"6000c2995def261106debf3e6c3cf033"}
 
 blst = {"358878470794903563", "Victarita", "1085109515906719744", "1118815225601343540"}
 
-save_bl = {"MATRIXTOPG", "RixboyDonate", "BULUKANJUET"}
+save_bl = {"MATRIXTOPG", "RixboyDonate"}
 drop_bl = {"MATRIXTOPG", "RixboyDonate"}
 
 if discordID == "" or discordID == nil then
