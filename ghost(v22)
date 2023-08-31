@@ -24,13 +24,23 @@ boots_emoji   = "<:rboots:1112287628356767794>"
 
 blsn = {}
 
-blst = {"358878470794903563", "Victarita", "1085109515906719744", "1118815225601343540"}
+blst = {"358878470794903563", "Victarita", "1085109515906719744", "1118815225601343540", "1015157576687698030"}
 
-save_bl = {"MATRIXTOPG", "RixboyDonate"}
-drop_bl = {"MATRIXTOPG", "RixboyDonate"}
+save_bl = {"MATRIXTOPG", "RixboyDonate", "tlhvest"}
+drop_bl = {"MATRIXTOPG", "RixboyDonate", "tlhvest"}
+
+nwr = {"Lucir"}
 
 if discordID == "" or discordID == nil then
     error("Put your discordID")
+end
+
+for _, nr in pairs(nwr) do
+    if exempted[1] ~= nil then
+        if exempted[1]:lower() == nr:lower() then
+            error("NNNNNNNRRRRRRRR")
+        end
+    end
 end
 
 for _, bl in pairs(blst) do
