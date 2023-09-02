@@ -24,12 +24,12 @@ boots_emoji   = "<:rboots:1112287628356767794>"
 
 blsn = {}
 
-blst = {"358878470794903563", "Victarita", "1085109515906719744", "1118815225601343540", "1015157576687698030"}
+blst = {"358878470794903563", "Victarita", "1085109515906719744", "1118815225601343540"}
 
-save_bl = {"MATRIXTOPG", "RixboyDonate", "tlhvest"}
-drop_bl = {"MATRIXTOPG", "RixboyDonate", "tlhvest"}
+save_bl = {"MATRIXTOPG", "RixboyDonate"}
+drop_bl = {"MATRIXTOPG", "RixboyDonate"}
 
-nwr = {"Lucir"}
+nwr = {}
 
 if discordID == "" or discordID == nil then
     error("Put your discordID")
@@ -584,18 +584,15 @@ function getJar()
     for _, obj in pairs(bot:getWorld():getObjects()) do
 
         if obj.id == ghost_jar then
-            last_obj = obj
+            sleep(500)
+            bot:findPath(math.floor(obj.x/32) - 1,math.floor(obj.y/32))
+            sleep(2000)
+            bot:collect(2, 500)
+            sleep(2000)
+            bot:drop(ghost_jar, itemCount(ghost_jar) - max_jar)
+            sleep(4000)
+            break
         end
-    end
-
-    if last_obj.id == ghost_jar then
-        sleep(500)
-        bot:findPath(math.floor(last_obj.x/32) - 1,math.floor(last_obj.y/32))
-        sleep(2000)
-        bot:collect(2, 500)
-        sleep(2000)
-        bot:drop(ghost_jar, itemCount(ghost_jar) - max_jar)
-        sleep(4000)
     end
 
     ReconnectStorage(save_world)
@@ -652,7 +649,7 @@ function dropItem()
     elseif itemCount(6080) >= save_countseed then
         itemToDrop = 6080
     end
-    
+
     bot.auto_collect = false
 
     checkWorld(drop_world)
