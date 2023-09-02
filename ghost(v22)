@@ -590,7 +590,7 @@ function getJar()
 
     if last_obj.id == ghost_jar then
         sleep(500)
-        bot:findPath(math.floor(last_obj.x/32) + 1,math.floor(last_obj.y/32))
+        bot:findPath(math.floor(last_obj.x/32) - 1,math.floor(last_obj.y/32))
         sleep(2000)
         bot:collect(2, 500)
         sleep(2000)
