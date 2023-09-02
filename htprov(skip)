@@ -1,6 +1,18 @@
 bot = getBot()
 world = bot:getWorld()
 
+
+function getPos()
+
+    if world:getLocal() then
+        Botx = math.floor(world:getLocal().posx / 32)
+        Boty = math.floor(world:getLocal().posy / 32)
+    end
+
+end
+
+
+
 function join(worlds, id)
 
     if world.name ~= worlds:upper() then
@@ -9,7 +21,8 @@ function join(worlds, id)
     end
 
     if door_id ~= "" then
-        if world:getTile(math.floor(world:getLocal().posx / 32), math.floor(world:getLocal().posy / 32)).fg == 6 then
+        getPos()
+        if world:getTile(Botx, Boty).fg == 6 then
             bot:warp(worlds.."|"..id)
             sleep(4000)
         end
