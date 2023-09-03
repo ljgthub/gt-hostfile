@@ -585,13 +585,26 @@ function getJar()
 
         if obj.id == ghost_jar then
             sleep(500)
-            bot:findPath(math.floor(obj.x/32) - 1,math.floor(obj.y/32))
+            path = bot:getPath(math.floor(obj.x/32) - 1,math.floor(obj.y/32))
+            path2 = bot:getPath(math.floor(obj.x/32),math.floor(obj.y/32))
+            sleep(100)
+            if path[1] ~= nil and path2[1] ~= nil then
+                bot:findPath(math.floor(obj.x/32) - 1,math.floor(obj.y/32))
+                sleep(2000)
+            end
+            bot.collect_range = 2
+            sleep(100)
+            bot.auto_collect = true
+            sleep(500)
+            bot.auto_collect = false
             sleep(2000)
-            bot:collect(2, 500)
-            sleep(2000)
-            bot:drop(ghost_jar, itemCount(ghost_jar) - max_jar)
-            sleep(4000)
-            break
+            if bot:getInventory():getItemCount(ghost_jar) > max_jar then
+                bot:drop(ghost_jar, itemCount(ghost_jar) - max_jar)
+                sleep(4000)
+            end
+
+
+            if bot:getInventory():getItemCount(ghost_jar) == max_jar then break end
         end
     end
 
@@ -990,6 +1003,7 @@ function hunt(world)
         isRelog()
         timeRelog()
 
+        bot.collect_range = 5
         bot.auto_collect = true
 
         if return_func then
@@ -1024,6 +1038,7 @@ function hunt(world)
             isRelog()
             timeRelog()
 
+            bot.collect_range = 5
             bot.auto_collect = true
 
             if stop_program then return end
