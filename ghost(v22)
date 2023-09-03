@@ -1017,6 +1017,15 @@ function hunt(world)
 
         if stop_program then return end
 
+        if not bot:getWorld():getLocal() then
+            bot.auto_reconnect = false
+            sleep(500)
+            bot:disconnect()
+            sleep(10000)
+            ReconnectGhost(world)
+            bot.auto_reconnect = true
+        end
+
         if os.time() > start_time + 30 then return end
 
         npc_count = 0
@@ -1046,6 +1055,15 @@ function hunt(world)
             local breakOuterLoop = false
 
             if bot.status ~= 1 then return end
+
+            if not bot:getWorld():getLocal() then
+                bot.auto_reconnect = false
+                sleep(500)
+                bot:disconnect()
+                sleep(10000)
+                ReconnectGhost(world)
+                bot.auto_reconnect = true
+            end
 
             if catch_mind then
                 if npc.type == 1 or npc.type == 12 then
