@@ -1166,7 +1166,7 @@ function hunt(world)
                         end
 
                         if bot.status ~= 1 then return end
-                        if (getposx() == math.floor(bot:getWorld():getNPC(npc.id).x / 32) or getposx() + 1 == math.floor(bot:getWorld():getNPC(npc.id).x / 32)) and (getposy() == math.floor(bot:getWorld():getNPC(npc.id).y / 32) or getposy() + 1 == math.floor(bot:getWorld():getNPC(npc.id).y / 32)) and not placed then
+                        if math.floor(math.sqrt((getposx() - math.floor(bot:getWorld():getNPC(npc.id).x / 32)) ^ 2 + (getposy() - math.floor(bot:getWorld():getNPC(npc.id).y / 32)) ^ 2)) <= 2 and not placed then
                             if bot:getWorld():getTile(getposx(), getposy() + 3).fg ~= 0 and bot:getWorld():getTile(getposx(), getposy() + 2).fg == 0 then
                                 if math.floor(math.sqrt((getposx() - math.floor(bot:getWorld():getNPC(npc.id).destx / 32)) ^ 2 + (getposy() - math.floor(bot:getWorld():getNPC(npc.id).desty / 32)) ^ 2)) <= 4 then
                                     sleep(50)
@@ -1327,7 +1327,7 @@ function hunt(world)
                         end
 
                         if bot.status ~= 1 then return end
-                        if getposx() == math.floor(bot:getWorld():getNPC(npc.id).x / 32) and (getposy() == math.floor(bot:getWorld():getNPC(npc.id).y / 32) or getposy() + 1 == math.floor(bot:getWorld():getNPC(npc.id).y / 32)) and not placed then
+                        if math.floor(math.sqrt((getposx() - math.floor(bot:getWorld():getNPC(npc.id).x / 32)) ^ 2 + (getposy() - math.floor(bot:getWorld():getNPC(npc.id).y / 32)) ^ 2)) <= 2 and not placed then
                             if bot:getWorld():getTile(getposx(), getposy() + 3).fg ~= 0 and bot:getWorld():getTile(getposx(), getposy() + 2).fg == 0 then
                                 if math.floor(math.sqrt((getposx() - math.floor(bot:getWorld():getNPC(npc.id).destx / 32)) ^ 2 + (getposy() - math.floor(bot:getWorld():getNPC(npc.id).desty / 32)) ^ 2)) <= 4 then
                                     sleep(50)
