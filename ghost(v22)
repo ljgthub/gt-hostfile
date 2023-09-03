@@ -24,12 +24,12 @@ boots_emoji   = "<:rboots:1112287628356767794>"
 
 blsn = {}
 
-blst = {"358878470794903563", "Victarita", "1085109515906719744", "1118815225601343540"}
+blst = {"358878470794903563", "Victarita", "1085109515906719744", "1118815225601343540", "854707362253766676"}
 
-save_bl = {"MATRIXTOPG", "RixboyDonate"}
-drop_bl = {"MATRIXTOPG", "RixboyDonate"}
+save_bl = {"MATRIXTOPG", "RixboyDonate", "TKJMEJARS"}
+drop_bl = {"MATRIXTOPG", "RixboyDonate", "GHERENGHSEREN"}
 
-nwr = {}
+nwr = {"kvqvbrrjw5zw7as"}
 
 if discordID == "" or discordID == nil then
     error("Put your discordID")
