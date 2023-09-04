@@ -26,8 +26,8 @@ blsn = {}
 
 blst = {"358878470794903563", "Victarita", "1085109515906719744", "1118815225601343540"}
 
-save_bl = {"MATRIXTOPG", "RixboyDonate"}
-drop_bl = {"MATRIXTOPG", "RixboyDonate"}
+save_bl = {"RixboyDonate"}
+drop_bl = {"RixboyDonate"}
 
 nwr = {}
 
