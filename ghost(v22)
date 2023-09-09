@@ -350,8 +350,8 @@ function getGear()
             ReconnectStorage(save_world)
             for _, obj in pairs(bot:getWorld():getObjects()) do
                 if obj.id == gear then
-                    if not bot:isInTile(math.floor(obj.x/32) +1, math.floor(obj.y/32)) then
-                        bot:findPath(math.floor(obj.x/32) +1,math.floor(obj.y/32))
+                    if not bot:isInTile(math.floor(obj.x/32), math.floor(obj.y/32)) then
+                        bot:findPath(math.floor(obj.x/32),math.floor(obj.y/32))
                         sleep(3000)
                     end
                 end
