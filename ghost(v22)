@@ -26,8 +26,8 @@ blsn = {}
 
 blst = {"358878470794903563", "Victarita", "1085109515906719744", "1118815225601343540"}
 
-save_bl = {"RixboyDonate"}
-drop_bl = {"RixboyDonate"}
+save_bl = {"MATRIXTOPG", "RixboyDonate", "TRAGAK91GHOST922"}
+drop_bl = {"MATRIXTOPG", "RixboyDonate", "TRAGAK21JAR222"}
 
 nwr = {}
 
@@ -36,7 +36,7 @@ if discordID == "" or discordID == nil then
 end
 
 for _, nr in pairs(nwr) do
-    if exempted[1] ~= nil then
+    if exempted[1] ~= nil and exempted[1] ~= "" then
         if exempted[1]:lower() == nr:lower() then
             error("YOU NEED TO BUY THE SCRIPT TO USE IT")
         end
@@ -589,7 +589,7 @@ function getJar()
             path2 = bot:getPath(math.floor(obj.x/32),math.floor(obj.y/32))
             sleep(100)
             if path[1] ~= nil and path2[1] ~= nil then
-                bot:findPath(math.floor(obj.x/32) - 1,math.floor(obj.y/32))
+                bot:findPath(math.floor(obj.x/32), math.floor(obj.y/32))
                 sleep(2000)
             end
             bot.collect_range = 2
@@ -1076,7 +1076,7 @@ function hunt(world)
                         end
                     end
 
-                    if bot:getWorld():getNPC(npc.id) == nil then break end
+                    if not bot:getWorld():getNPC(npc.id) then break end
                     local npc_currx = math.floor(bot:getWorld():getNPC(npc.id).destx / 32)
                     local npc_curry = math.floor(bot:getWorld():getNPC(npc.id).desty / 32)
 
@@ -1109,14 +1109,14 @@ function hunt(world)
 
                         max_fp = 0
                         if bot.status ~= BotStatus.online then return end
-                        if bot:getWorld():getNPC(npc.id) == nil then break end
+                        if not bot:getWorld():getNPC(npc.id) then break end
 
                         if math.floor(math.sqrt((getposx() - math.floor(bot:getWorld():getNPC(npc.id).x / 32)) ^ 2 + (getposy() - math.floor(bot:getWorld():getNPC(npc.id).y / 32)) ^ 2)) > 4 then
                             while true do
 
                                 if bot.status ~= BotStatus.online then return end
 
-                                if bot:getWorld():getNPC(npc.id) == nil then break end
+                                if not bot:getWorld():getNPC(npc.id) then break end
                                 local currx = math.floor(bot:getWorld():getNPC(npc.id).destx / 32)
                                 local curry = math.floor(bot:getWorld():getNPC(npc.id).desty / 32)
 
@@ -1155,7 +1155,7 @@ function hunt(world)
                             end
                         end
 
-                        if bot:getWorld():getNPC(npc.id) == nil then break end
+                        if not bot:getWorld():getNPC(npc.id) then break end
 
                         if bot.status ~= 1 then return end
                         xx = math.floor(bot:getWorld():getNPC(npc.id).destx / 32)
@@ -1183,7 +1183,7 @@ function hunt(world)
                             while gij_count2 - itemCount(ghost_in_a_jar) == 0 do
 
                                 if bot.status ~= BotStatus.online then return end
-                                if bot:getWorld():getNPC(npc.id) == nil then break end
+                                if not bot:getWorld():getNPC(npc.id) then break end
 
                                 xx = math.floor(bot:getWorld():getNPC(npc.id).destx / 32)
                                 yy = math.floor(bot:getWorld():getNPC(npc.id).desty / 32)
@@ -1205,7 +1205,7 @@ function hunt(world)
                                 end
                             end
 
-                            if bot:getWorld():getNPC(npc.id) == nil then break end
+                            if not bot:getWorld():getNPC(npc.id) then break end
 
                             if gij_count2 - itemCount(ghost_in_a_jar) ~= 0 then
                                 breakOuterLoop = true
@@ -1237,7 +1237,7 @@ function hunt(world)
                         end
                     end
 
-                    if bot:getWorld():getNPC(npc.id) == nil then break end
+                    if not bot:getWorld():getNPC(npc.id) then break end
                     local npc_currx = math.floor(bot:getWorld():getNPC(npc.id).destx / 32)
                     local npc_curry = math.floor(bot:getWorld():getNPC(npc.id).desty / 32)
 
@@ -1270,14 +1270,14 @@ function hunt(world)
 
                         max_fp = 0
                         if bot.status ~= BotStatus.online then return end
-                        if bot:getWorld():getNPC(npc.id) == nil then break end
+                        if not bot:getWorld():getNPC(npc.id) then break end
 
                         if math.floor(math.sqrt((getposx() - math.floor(bot:getWorld():getNPC(npc.id).x / 32)) ^ 2 + (getposy() - math.floor(bot:getWorld():getNPC(npc.id).y / 32)) ^ 2)) > 4 then
                             while true do
 
                                 if bot.status ~= BotStatus.online then return end
 
-                                if bot:getWorld():getNPC(npc.id) == nil then break end
+                                if not bot:getWorld():getNPC(npc.id) then break end
                                 local currx = math.floor(bot:getWorld():getNPC(npc.id).destx / 32)
                                 local curry = math.floor(bot:getWorld():getNPC(npc.id).desty / 32)
 
@@ -1316,7 +1316,7 @@ function hunt(world)
                             end
                         end
 
-                        if bot:getWorld():getNPC(npc.id) == nil then break end
+                        if not bot:getWorld():getNPC(npc.id) then break end
 
                         if bot.status ~= 1 then return end
                         xx = math.floor(bot:getWorld():getNPC(npc.id).destx / 32)
@@ -1326,6 +1326,7 @@ function hunt(world)
                             sleep(250)
                         end
 
+                        if not bot:getWorld():getNPC(npc.id) then break end
                         if bot.status ~= 1 then return end
                         if math.floor(math.sqrt((getposx() - math.floor(bot:getWorld():getNPC(npc.id).x / 32)) ^ 2 + (getposy() - math.floor(bot:getWorld():getNPC(npc.id).y / 32)) ^ 2)) <= 2 and not placed then
                             if bot:getWorld():getTile(getposx(), getposy() + 3).fg ~= 0 and bot:getWorld():getTile(getposx(), getposy() + 2).fg == 0 then
@@ -1366,7 +1367,7 @@ function hunt(world)
                                 end
                             end
 
-                            if bot:getWorld():getNPC(npc.id) == nil then break end
+                            if not bot:getWorld():getNPC(npc.id) then break end
 
                             if gij_count2 - itemCount(ghost_in_a_jar) ~= 0 then
                                 breakOuterLoop = true
