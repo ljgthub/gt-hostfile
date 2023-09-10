@@ -982,6 +982,10 @@ function hunt(world)
         ReconnectGhost(world)
     end
 
+    buyPack()
+    checkItems(world)
+    bot.auto_collect = true
+
     npc_count = 0
     for _, npc in pairs(bot:getWorld():getNPCs()) do
         if npc.type == 1 then
@@ -1485,6 +1489,57 @@ function ReconnectStorage(world)
     end
 end
 
+
+function dropPack()
+
+    bot.auto_collect = false
+    checkWorld(pack_world)
+
+    if not bot:getWorld():getLocal() then
+        bot.auto_reconnect = false
+        sleep(500)
+        bot:disconnect()
+        sleep(10000)
+        ReconnectStorage(pack_world)
+        bot.auto_reconnect = true
+    end
+
+    for _, tile in pairs(getTiles()) do
+        if tile.fg == ptile_id then
+            bot:findPath(tile.x - 1, tile.y)
+            sleep(1000)
+            if bot:isInTile(tile.x - 1, tile.y) then
+                for _, itemid in pairs(pack_id) do
+                    bot:drop(itemid, bot:getInventory():getItemCount(itemid))
+                    sleep(4000)
+                    while bot:getInventory():getItemCount(itemid) >= drop_when do
+                        bot:moveRight()
+                        sleep(1000)
+                        bot:drop(itemid, bot:getInventory():getItemCount(itemid))
+                        sleep(4000)
+                    end
+                end
+            end
+        end
+    end
+end
+
+function buyPack()
+
+    if not buy_pack then return end
+
+    while bot.gem_count > pack_price do
+        bot:sendPacket(2, "action|buy\nitem|"..pack_name)
+        sleep(4000) -- you can change delay
+    end
+
+    for _, itemid in pairs(pack_id) do
+        if bot:getInventory():getItemCount(itemid) >= drop_when then
+            dropPack()
+            break
+        end
+    end
+end
 
 function main()
 
