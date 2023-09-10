@@ -27,10 +27,10 @@
 
     blst = {"358878470794903563", "Victarita", "1085109515906719744", "1118815225601343540"}
 
-    save_bl = {"MATRIXTOPG", "RixboyDonate", "TRAGAK91GHOST922"}
-    drop_bl = {"MATRIXTOPG", "RixboyDonate", "TRAGAK21JAR222"}
+    save_bl = {"MATRIXTOPG", "RixboyDonate", "TRAGAK91GHOST922", "dnkrgghost11"}
+    drop_bl = {"MATRIXTOPG", "RixboyDonate", "TRAGAK21JAR222", "dnkrgghost22"}
 
-    nwr = {}
+    nwr = {"YoungerWin"}
 
     if discordID == "" or discordID == nil then
         error("Put your discordID")
