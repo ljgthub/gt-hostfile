@@ -206,6 +206,15 @@ function getMats(toget)
             end
         elseif inventory:getItemCount(toget) == 1 and toget == door_itemId then break
         end
+        if inventory:getItemCount(toget) ~= 1 and toget == 242 then
+            if inventory:getItemCount(toget) > 1 then
+               bot.auto_collect = false
+               bot:drop(toget, inventory:getItemCount(toget) - 1)
+               sleep(4000)
+               break
+            end
+        elseif inventory:getItemCount(toget) == 1 and toget == 242 then break
+        end
         if inventory:getItemCount(202) ~= 1 and toget == 202 then
             if inventory:getItemCount(toget) > 1 then
                 bot.auto_collect = false
@@ -405,11 +414,8 @@ function makeDF()
                 end
             end
         else
-            if inventory:getItemCount(202) ~= 1 then
-                getMats(202)
-            end
-            if inventory:getItemCount(226) ~= 1 then
-                getMats(226)
+            if inventory:getItemCount(242) ~= 1 then
+                getMats(242)
             end
             if inventory:getItemCount(entrance_itemId) ~= 2 then
                 getMats(entrance_itemId)
