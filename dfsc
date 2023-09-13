@@ -1,823 +1,813 @@
-bot = getBot()
-world = bot:getWorld()
-inventory = bot:getInventory()
+    bot = getBot()
+    world = bot:getWorld()
+    inventory = bot:getInventory()
 
-continue = false
+    continue = false
 
-offset = {
-    {x = -2, y = 1},
-    {x = -2, y = 2},
-    {x = -1, y = 2},
-    {x =  0, y = 2},
-    {x =  1, y = 2},
-    {x =  2, y = 2},
-    {x =  2, y = 1},
-}
+    offset = {
+        {x = -2, y = 1},
+        {x = -2, y = 2},
+        {x = -1, y = 2},
+        {x =  0, y = 2},
+        {x =  1, y = 2},
+        {x =  2, y = 2},
+        {x =  2, y = 1},
+    }
 
-side_offset = {
-    {x = 0, y = 23},
-    {x = 1, y = 23},
-    {x = 99, y = 23},
-    {x = 98, y = 23}
-}
-
-
-function webHookEmbed(title, desc)
-
-    wh = Webhook.new(webhook_URL)
-    wh.username = "AUTO DF BY SC STORE"
-    wh.avatar_url = "https://static.vecteezy.com/system/resources/previews/003/005/853/non_2x/logo-monogram-design-template-free-vector.jpg"
-    wh.embed1.use = true
-    wh.embed1.title = title
-    wh.embed1.description = desc
-    wh.embed1.footer.text = "world: "..tostring(world.name).."\nbot: "..bot.name
-    wh:send()
-end
+    side_offset = {
+        {x = 0, y = 23},
+        {x = 1, y = 23},
+        {x = 99, y = 23},
+        {x = 98, y = 23}
+    }
 
 
-function randomLetter()
-    randomCharCode = ""
-    for i=1,letter,1 do
-        randomCharCode = randomCharCode..string.char(math.random(65, 90))
+    function webHookEmbed(title, desc)
+
+        wh = Webhook.new(webhook_URL)
+        wh.username = "AUTO DF BY SC STORE"
+        wh.avatar_url = "https://static.vecteezy.com/system/resources/previews/003/005/853/non_2x/logo-monogram-design-template-free-vector.jpg"
+        wh.embed1.use = true
+        wh.embed1.title = title
+        wh.embed1.description = desc
+        wh.embed1.footer.text = "world: "..tostring(world.name).."\nbot: "..bot.name
+        wh:send()
     end
-    return tostring(randomCharCode)
-end
 
-function getBotPos()
-    worldName = tostring(world.name)
-    if worldName ~= "" and worldName ~= "EXIT" then
-        localbot = world:getLocal()
-        if not localbot then
+
+    function randomLetter()
+        randomCharCode = ""
+        for i=1,letter,1 do
+            randomCharCode = randomCharCode..string.char(math.random(65, 90))
+        end
+        return tostring(randomCharCode)
+    end
+
+    function getBotPos()
+        worldName = tostring(world.name)
+        if worldName ~= "" and worldName ~= "EXIT" then
+            localbot = world:getLocal()
+            if not localbot then
+                bot:disconnect()
+                sleep(10000)
+
+                Reconnect(worldName)
+            end
+            if localbot then
+                Botx = math.floor(localbot.posx / 32)
+                Boty = math.floor(localbot.posy / 32)
+            end
+        end
+    end
+
+    function join(a)
+
+        sleep(3000)
+        bot:warp(a)
+        sleep(6000)
+
+        if not world:getLocal() then
             bot:disconnect()
             sleep(10000)
 
-            Reconnect(worldName)
+            Reconnect(a)
         end
-        if localbot then
-            Botx = math.floor(localbot.posx / 32)
-            Boty = math.floor(localbot.posy / 32)
+
+        if a:match("(.+)|") ~= nil then
+            getBotPos()
+            if world:getTile(Botx, Boty).fg == 6 then
+                sleep(3000)
+                bot:warp(a)
+                sleep(5000)
+            end
         end
-    end
-end
 
-function join(a)
-
-    sleep(3000)
-    bot:warp(a)
-    sleep(6000)
-
-    if not world:getLocal() then
-        bot:disconnect()
-        sleep(10000)
-
-        Reconnect(a)
     end
 
-    if a:match("(.+)|") ~= nil then
-        getBotPos()
-        if world:getTile(Botx, Boty).fg == 6 then
-            sleep(3000)
-            bot:warp(a)
-            sleep(5000)
+    function Trash()
+        for _,trashI in pairs(trash_list) do
+            if trashI > 100 then
+                sleep(1000)
+                bot:trash(trashI, inventory:getItemCount(trashI))
+                sleep(3000)
+            end
         end
     end
 
-end
+    function Locked()
 
-function Trash()
-    for _,trashI in pairs(trash_list) do
-        if trashI > 100 then
-            sleep(1000)
-            bot:trash(trashI, inventory:getItemCount(trashI))
-            sleep(3000)
+        locked = false
+        for _, tile in pairs(getTiles()) do
+            if tile.fg == 242 then
+                locked = true
+            end
+            if tile.fg == 202 then
+                locked = true
+            end
+            if tile.fg == 204 then
+                locked = true
+            end
+            if tile.fg == 206 then
+                locked = true
+            end
         end
-    end
-end
 
-function Locked()
+        return locked
 
-    locked = false
-    for _, tile in pairs(getTiles()) do
-        if tile.fg == 242 then
-            locked = true
-        end
-        if tile.fg == 202 then
-            locked = true
-        end
-        if tile.fg == 204 then
-            locked = true
-        end
-        if tile.fg == 206 then
-            locked = true
-        end
     end
 
-    return locked
+    function gs()
 
-end
+        if tostring(world.name) ~= storage_world:upper():match("(.+)|") then return end
+        door_count = 0
+        pick_count = 0
+        plat_count = 0
+        sl_count = 0
+        entrance_count = 0
+        jammer_count = 0
 
-function gs()
+        for _, obj in pairs(getObjects()) do
+            if obj.id == door_itemId then
+                door_count = door_count + obj.count
+            end
+            if obj.id == 98 then
+                pick_count = pick_count + obj.count
+            end
+            if obj.id == plat_itemId then
+                plat_count = plat_count + obj.count
+            end
+            if obj.id == 202 then
+                sl_count = sl_count + obj.count
+            end
+            if obj.id == entrance_itemId then
+                entrance_count = entrance_count + obj.count
+            end
+            if obj.id == 226 then
+                jammer_count = jammer_count + obj.count
+            end
+        end
 
-    if tostring(world.name) ~= storage_world:upper():match("(.+)|") then return end
-    door_count = 0
-    pick_count = 0
-    plat_count = 0
-    sl_count = 0
-    entrance_count = 0
-    jammer_count = 0
+    webHookEmbed("STOCK INFO", [[
+    Door: ]]..door_count..[[
 
-    for _, obj in pairs(getObjects()) do
-        if obj.id == door_itemId then
-            door_count = door_count + obj.count
-        end
-        if obj.id == 98 then
-            pick_count = pick_count + obj.count
-        end
-        if obj.id == plat_itemId then
-            plat_count = plat_count + obj.count
-        end
-        if obj.id == 202 then
-            sl_count = sl_count + obj.count
-        end
-        if obj.id == entrance_itemId then
-            entrance_count = entrance_count + obj.count
-        end
-        if obj.id == 226 then
-            jammer_count = jammer_count + obj.count
-        end
+    Entrance: ]]..entrance_count..[[
+
+    Small Lock: ]]..sl_count..[[
+
+    Signal Jammer: ]]..jammer_count..[[
+
+    Wooden Platform: ]]..plat_count..[[
+
+    PickAxe: ]]..pick_count..[[
+
+    ]])
     end
 
-webHookEmbed("STOCK INFO", [[
-Door: ]]..door_count..[[
+    function getMats(toget)
 
-Entrance: ]]..entrance_count..[[
+        bot.auto_collect = false
+        worldName = tostring(world.name)
+        if worldName ~= storage_world:upper():match("(.+)|") then
+            join(storage_world)
+        end
 
-Small Lock: ]]..sl_count..[[
+        ReconnectStorage(storage_world)
 
-Signal Jammer: ]]..jammer_count..[[
+        door_count = 0
+        pick_count = 0
+        plat_count = 0
+        sl_count = 0
+        entrance_count = 0
+        jammer_count = 0
 
-Wooden Platform: ]]..plat_count..[[
-
-PickAxe: ]]..pick_count..[[
-
-]])
-end
-
-function getMats(toget)
-
-    bot.auto_collect = false
-    worldName = tostring(world.name)
-    if worldName ~= storage_world:upper():match("(.+)|") then
-        join(storage_world)
-    end
-
-    ReconnectStorage(storage_world)
-
-    door_count = 0
-    pick_count = 0
-    plat_count = 0
-    sl_count = 0
-    entrance_count = 0
-    jammer_count = 0
-
-    for _, obj in pairs(getObjects()) do
-        if obj.id == toget then
-            bot.collect_range = 2
-            if not bot:isInTile(math.floor(obj.x/32), math.floor(obj.y/32)) then
-                bot:findPath(math.floor(obj.x/32), math.floor(obj.y/32))
-                while not bot:isInTile(math.floor(obj.x/32), math.floor(obj.y/32)) do
-                    sleep(100)
+        for _, obj in pairs(getObjects()) do
+            if obj.id == toget then
+                bot.collect_range = 2
+                if not bot:isInTile(math.floor(obj.x/32), math.floor(obj.y/32)) then
+                    bot:findPath(math.floor(obj.x/32), math.floor(obj.y/32))
+                    while not bot:isInTile(math.floor(obj.x/32), math.floor(obj.y/32)) do
+                        sleep(100)
+                    end
+                    sleep(1000)
+                end
+                for _, obj2 in pairs(getObjects()) do
+                    if obj2.id == toget then
+                        bot:collectObject(obj2.oid, 2)
+                    end
                 end
                 sleep(1000)
             end
-            for _, obj2 in pairs(getObjects()) do
-                if obj2.id == toget then
-                    bot:collectObject(obj2.oid, 2)
-                end
-            end
-            sleep(1000)
-        end
-        if inventory:getItemCount(toget) ~= 1 and toget == door_itemId then
-            if inventory:getItemCount(toget) > 1 then
-               bot.auto_collect = false
-               bot:drop(toget, inventory:getItemCount(toget) - 1)
-               sleep(4000)
-               break
-            end
-        elseif inventory:getItemCount(toget) == 1 and toget == door_itemId then break
-        end
-        if inventory:getItemCount(toget) ~= 1 and toget == 242 then
-            if inventory:getItemCount(toget) > 1 then
-               bot.auto_collect = false
-               bot:drop(toget, inventory:getItemCount(toget) - 1)
-               sleep(4000)
-               break
-            end
-        elseif inventory:getItemCount(toget) == 1 and toget == 242 then break
-        end
-        if inventory:getItemCount(202) ~= 1 and toget == 202 then
-            if inventory:getItemCount(toget) > 1 then
+            if inventory:getItemCount(toget) ~= 1 and toget == door_itemId then
+                if inventory:getItemCount(toget) > 1 then
                 bot.auto_collect = false
                 bot:drop(toget, inventory:getItemCount(toget) - 1)
                 sleep(4000)
                 break
+                end
+            elseif inventory:getItemCount(toget) == 1 and toget == door_itemId then break
             end
-        elseif inventory:getItemCount(toget) == 1 and toget == 202 then break
-        end
-        if inventory:getItemCount(226) ~= 1 and toget == 226 then 
-            if inventory:getItemCount(toget) > 1 then
+            if inventory:getItemCount(toget) ~= 1 and toget == 242 then
+                if inventory:getItemCount(toget) > 1 then
                 bot.auto_collect = false
                 bot:drop(toget, inventory:getItemCount(toget) - 1)
                 sleep(4000)
                 break
+                end
+            elseif inventory:getItemCount(toget) == 1 and toget == 242 then break
             end
-        elseif inventory:getItemCount(toget) == 1 and toget == 226 then break
-        end
-        if inventory:getItemCount(toget) ~= 3 and toget == entrance_itemId then 
-            if inventory:getItemCount(toget) > 3 then
-                bot.auto_collect = false
-                bot:drop(toget, inventory:getItemCount(toget) - 3)
-                sleep(4000)
-                break
+            if inventory:getItemCount(202) ~= 1 and toget == 202 then
+                if inventory:getItemCount(toget) > 1 then
+                    bot.auto_collect = false
+                    bot:drop(toget, inventory:getItemCount(toget) - 1)
+                    sleep(4000)
+                    break
+                end
+            elseif inventory:getItemCount(toget) == 1 and toget == 202 then break
             end
-        elseif inventory:getItemCount(toget) == 3 and toget == entrance_itemId then break
-        end
-        if inventory:getItemCount(toget) ~= 60 and toget == plat_itemId then
-            if inventory:getItemCount(toget) > 60 then
-                bot.auto_collect = false
-                bot:drop(toget, inventory:getItemCount(toget) - 60)
-                sleep(4000)
-                break
+            if inventory:getItemCount(226) ~= 1 and toget == 226 then 
+                if inventory:getItemCount(toget) > 1 then
+                    bot.auto_collect = false
+                    bot:drop(toget, inventory:getItemCount(toget) - 1)
+                    sleep(4000)
+                    break
+                end
+            elseif inventory:getItemCount(toget) == 1 and toget == 226 then break
             end
-        elseif inventory:getItemCount(toget) == 60 and toget == plat_itemId then break
+            if inventory:getItemCount(toget) ~= 3 and toget == entrance_itemId then 
+                if inventory:getItemCount(toget) > 3 then
+                    bot.auto_collect = false
+                    bot:drop(toget, inventory:getItemCount(toget) - 3)
+                    sleep(4000)
+                    break
+                end
+            elseif inventory:getItemCount(toget) == 3 and toget == entrance_itemId then break
+            end
+            if inventory:getItemCount(toget) ~= 60 and toget == plat_itemId then
+                if inventory:getItemCount(toget) > 60 then
+                    bot.auto_collect = false
+                    bot:drop(toget, inventory:getItemCount(toget) - 60)
+                    sleep(4000)
+                    break
+                end
+            elseif inventory:getItemCount(toget) == 60 and toget == plat_itemId then break
+            end
         end
     end
-end
 
-function getPickaxe()
+    function getPickaxe()
 
-    worldName = tostring(world.name)
-    if worldName ~= storage_world:upper():match("(.+)|") then
-        join(storage_world)
+        worldName = tostring(world.name)
+        if worldName ~= storage_world:upper():match("(.+)|") then
+            join(storage_world)
+        end
+
+        bot.auto_collect = false
+
+        ReconnectStorage(storage_world)
+        for _, obj in pairs(getObjects()) do
+            if obj.id == 98 then
+                bot.collect_range = 2
+                if not bot:isInTile(math.floor(obj.x/32), math.floor(obj.y/32)) then
+                    bot:findPath(math.floor(obj.x/32), math.floor(obj.y/32))
+                end
+                for _, obj2 in pairs(getObjects()) do
+                    if obj2.id == 98 then
+                        bot:collectObject(obj2.oid, 2)
+                    end
+                end
+                sleep(1000)
+            end
+            if inventory:getItemCount(98) > 1 then
+                bot.auto_collect = false
+                bot:drop(98, inventory:getItemCount(98) - 1)
+                sleep(4000)
+                bot:wear(98)
+                sleep(3000)
+                break
+            end
+        end
     end
 
-    bot.auto_collect = false
+    function breakSide()
 
-    ReconnectStorage(storage_world)
-    for _, obj in pairs(getObjects()) do
-        if obj.id == 98 then
-            bot.collect_range = 2
-            if not bot:isInTile(math.floor(obj.x/32), math.floor(obj.y/32)) then
-                bot:findPath(math.floor(obj.x/32), math.floor(obj.y/32))
-            end
-            for _, obj2 in pairs(getObjects()) do
-                if obj2.id == 98 then
-                    bot:collectObject(obj2.oid, 2)
+        ::cont::
+        Reconnect(current_world)
+        notclearside = 0
+        for _, tile in pairs(getTiles()) do
+            if tile.x == 0 or tile.x == 1 or tile.x == 99 or tile.x == 98 then
+                if world:getTile(tile.x, tile.y).fg ~= 0 and world:getTile(tile.x, tile.y).fg ~= plat_itemId and world:getTile(tile.x, tile.y).fg ~= 8 and world:getTile(tile.x, tile.y).fg ~= 3760 then
+                    notclearside = notclearside + 1
                 end
             end
+        end
+
+        if notclearside == 0 then return end
+
+        for _, side in pairs(side_offset) do
+            if bot.status ~= 1 then goto cont end
+            bot:findPath(side.x, side.y)
             sleep(1000)
-        end
-        if inventory:getItemCount(98) > 1 then
-            bot.auto_collect = false
-            bot:drop(98, inventory:getItemCount(98) - 1)
-            sleep(4000)
-            bot:wear(98)
-            sleep(3000)
-            break
-        end
-    end
-end
-
-function breakSide()
-
-    ::cont::
-    Reconnect(current_world)
-    notclearside = 0
-    for _, tile in pairs(getTiles()) do
-        if tile.x == 0 or tile.x == 1 or tile.x == 99 or tile.x == 98 then
-            if world:getTile(tile.x, tile.y).fg ~= 0 and world:getTile(tile.x, tile.y).fg ~= plat_itemId and world:getTile(tile.x, tile.y).fg ~= 8 and world:getTile(tile.x, tile.y).fg ~= 3760 then
-                notclearside = notclearside + 1
-            end
-        end
-    end
-
-    if notclearside == 0 then return end
-
-    for _, side in pairs(side_offset) do
-        if bot.status ~= 1 then goto cont end
-        bot:findPath(side.x, side.y)
-        sleep(1000)
-        if bot:isInTile(side.x, side.y) then
-            while true do
-                if bot.status ~= 1 then goto cont end
-                getBotPos()
-                if world:getTile(Botx, Boty+1).fg == 8 then break end
-                while world:getTile(Botx, Boty+1).fg ~= 0 or world:getTile(Botx, Boty+1).bg ~= 0 do
-                    bot:hit(Botx, Boty+1)
+            if bot:isInTile(side.x, side.y) then
+                while true do
+                    if bot.status ~= 1 then goto cont end
+                    getBotPos()
+                    if world:getTile(Botx, Boty+1).fg == 8 then break end
+                    while world:getTile(Botx, Boty+1).fg ~= 0 or world:getTile(Botx, Boty+1).bg ~= 0 do
+                        bot:hit(Botx, Boty+1)
+                        sleep(300)
+                    end
+                    bot:moveDown()
                     sleep(300)
                 end
-                bot:moveDown()
-                sleep(300)
             end
         end
+
     end
 
-end
+    function upgradeBP()
 
-function upgradeBP()
-
-    if inventory.slotcount == 16 and bot.gem_count > 100 then
-        sleep(2000)
-        bot:sendPacket(2, "action|buy\nitem|upgrade_backpack")
-        sleep(4000)
-    end
-    if inventory.slotcount == 26 and bot.gem_count > 200 then
-        sleep(2000)
-        bot:sendPacket(2, "action|buy\nitem|upgrade_backpack")
-        sleep(4000)
-    end
-end
-
-function saveSeed()
-
-
-    bot.auto_collect = false
-    join(save_world)
-
-
-
-    ReconnectStorage(save_world)
-
-    bot:drop(3, inventory:getItemCount(3) - 1)
-    sleep(4000)
-
-
-    while inventory:getItemCount(3) > 199 do
-        bot:moveRight()
-        sleep(1000)
-        bot:drop(3, inventory:getItemCount(3) - 1)
-    end
-end
-
-function emptyTile()
-
-    empty_tile = 0
-    for _, tile5 in pairs(getTiles()) do
-        if (tile5.x ~= 0 and tile5.x ~= 1 and tile5.x ~= 98 and tile5.x ~= 99) and tile5.y % 2 ~= 1 and tile5.y ~= 0 and tile5.fg == 0 then
-            empty_tile = empty_tile + 1
+        if inventory.slotcount == 16 and bot.gem_count > 100 then
+            sleep(2000)
+            bot:sendPacket(2, "action|buy\nitem|upgrade_backpack")
+            sleep(4000)
+        end
+        if inventory.slotcount == 26 and bot.gem_count > 200 then
+            sleep(2000)
+            bot:sendPacket(2, "action|buy\nitem|upgrade_backpack")
+            sleep(4000)
         end
     end
-    return empty_tile
 
-end
+    function saveSeed()
 
-function makeDF()
 
-    if continue then
-        current_world = tostring(world.name)
+        bot.auto_collect = false
+        join(save_world)
+
+
+
+        ReconnectStorage(save_world)
+
+        bot:drop(3, inventory:getItemCount(3) - 1)
+        sleep(4000)
+
+
+        while inventory:getItemCount(3) > 199 do
+            bot:moveRight()
+            sleep(1000)
+            bot:drop(3, inventory:getItemCount(3) - 1)
+        end
     end
 
-    if not continue then
-        join(randomLetter())
-        current_world = tostring(world.name)
+    function emptyTile()
 
-        while Locked() do
-            Reconnect(current_world)
-            join(randomLetter())
+        empty_tile = 0
+        for _, tile5 in pairs(getTiles()) do
+            if (tile5.x ~= 0 and tile5.x ~= 1 and tile5.x ~= 98 and tile5.x ~= 99) and tile5.y % 2 ~= 1 and tile5.y ~= 0 and tile5.fg == 0 then
+                empty_tile = empty_tile + 1
+            end
+        end
+        return empty_tile
+
+    end
+
+    function makeDF()
+
+        if continue then
             current_world = tostring(world.name)
         end
 
-        webHookEmbed("CURRENT WORLD", current_world)
+        if not continue then
+            join(randomLetter())
+            current_world = tostring(world.name)
 
-        if make_rotasi then
-            if inventory:getItemCount(entrance_itemId) ~= 3 then
-                getMats(entrance_itemId)
+            while Locked() do
+                Reconnect(current_world)
+                join(randomLetter())
+                current_world = tostring(world.name)
             end
-            if inventory:getItemCount(202) ~= 1 then
-                getMats(202)
-            end
-            if inventory:getItemCount(plat_itemId) ~= 60 then
-                getMats(plat_itemId)
-            end
-            if inventory:getItemCount(door_itemId) ~= 1 then
-                getMats(door_itemId)
-            end
-            if inventory:getItemCount(226) ~= 1 then
-                getMats(226)
-            end
-            if inventory:getItemCount(98) == 0 then
-                getPickaxe()
+
+            webHookEmbed("CURRENT WORLD", current_world)
+
+            if make_rotasi then
+                if inventory:getItemCount(entrance_itemId) ~= 3 then
+                    getMats(entrance_itemId)
+                end
+                if inventory:getItemCount(202) ~= 1 then
+                    getMats(202)
+                end
+                if inventory:getItemCount(plat_itemId) ~= 60 then
+                    getMats(plat_itemId)
+                end
+                if inventory:getItemCount(door_itemId) ~= 1 then
+                    getMats(door_itemId)
+                end
+                if inventory:getItemCount(226) ~= 1 then
+                    getMats(226)
+                end
+                if inventory:getItemCount(98) == 0 then
+                    getPickaxe()
+                else
+                    if not inventory:getItem(98).isActive then
+                        bot:wear(98)
+                        sleep(3000)
+                    end
+                end
             else
-                if not inventory:getItem(98).isActive then
-                    bot:wear(98)
-                    sleep(3000)
+                if inventory:getItemCount(242) ~= 1 then
+                    getMats(242)
+                end
+                if inventory:getItemCount(entrance_itemId) ~= 2 then
+                    getMats(entrance_itemId)
+                end
+                if inventory:getItemCount(plat_itemId) ~= 60 then
+                    getMats(plat_itemId)
+                end
+                if inventory:getItemCount(98) == 0 then
+                    getPickaxe()
+                else
+                    if not inventory:getItem(98).isActive then
+                        bot:wear(98)
+                        sleep(3000)
+                    end
                 end
             end
-        else
-            if inventory:getItemCount(242) ~= 1 then
-                getMats(242)
-            end
-            if inventory:getItemCount(entrance_itemId) ~= 2 then
-                getMats(entrance_itemId)
-            end
-            if inventory:getItemCount(plat_itemId) ~= 60 then
-                getMats(plat_itemId)
-            end
-            if inventory:getItemCount(98) == 0 then
-                getPickaxe()
-            else
-                if not inventory:getItem(98).isActive then
-                    bot:wear(98)
-                    sleep(3000)
-                end
-            end
         end
-    end
-    gs()
-    join(current_world)
-    bot.collect_range = 5
-    bot.auto_collect = true
+        gs()
+        join(current_world)
+        bot.collect_range = 5
+        bot.auto_collect = true
 
-    Reconnect(current_world)
-    if make_rotasi and not continue then
-        getBotPos()
-        while world:getTile(Botx +1, Boty).fg == 0 do
-            bot:place(Botx +1, Boty, entrance_itemId)
-            sleep(300)
-        end
-        while world:getTile(Botx -1, Boty).fg == 0 do
-            bot:place(Botx -1, Boty, entrance_itemId)
-            sleep(300)
-        end
-        while world:getTile(Botx -1, Boty -1).fg == 0 do
-            bot:place(Botx -1, Boty -1, entrance_itemId)
-            sleep(300)
-        end
-        placed_jammer = false
-        while world:getTile(Botx +1, Boty -1).fg == 0 do
-            placed_jammer = true
-            bot:place(Botx +1, Boty -1, 226)
-            sleep(300)
-        end
-        if placed_jammer then
-            sleep(300)
-            bot:hit(Botx +1, Boty -1)
-            sleep(300)
-        end
-        while world:getTile(Botx, Boty -1).fg == 0 do
-            bot:place(Botx, Boty -1, 202)
-            sleep(300)
-        end
-        while world:getTile(Botx-1, Boty+1).fg ~= 0 or world:getTile(Botx-1, Boty+1).bg ~= 0 do
-            bot:hit(Botx-1, Boty+1)
-            sleep(300)
-        end
-        for _, off in pairs(offset) do
-            Reconnect(current_world)
-            while world:getTile(Botx +off.x, Boty +off.y).fg ~= 0 or world:getTile(Botx +off.x, Boty +off.y).bg ~= 0 do
-                bot:hit(Botx +off.x, Boty +off.y)
+        Reconnect(current_world)
+        if make_rotasi and not continue then
+            getBotPos()
+            while world:getTile(Botx +1, Boty).fg == 0 do
+                bot:place(Botx +1, Boty, entrance_itemId)
                 sleep(300)
             end
-        end
-        Reconnect(current_world)
-        xx = Botx - 1
-        yy = Boty + 1
-        sleep(100)
-        bot:findPath(xx,yy)
-        sleep(2000)
-        while world:getTile(Botx -1, Boty +1).fg == 0 do
-            bot:place(Botx -1, Boty +1, door_itemId)
-            sleep(300)
-        end
-        sleep(2000)
-        if bot:isInTile(xx,yy) then
-            bot:wrench(Botx -1, Boty +1)
-            sleep(4000)
-            bot:sendPacket(2, "action|dialog_return\ndialog_name|door_edit\ntilex|"..xx.."|\ntiley|"..yy.."|\ndoor_name|\ndoor_target|\ndoor_id|"..door_ID)
-            sleep(5000)
-        end
-        Reconnect(current_world)
-        xxx = Botx
-        yyy = Boty -1
-        sleep(200)
-        bot:findPath(xxx,yyy-1)
-        sleep(2000)
-        if bot:isInTile(xxx,yyy-1) then
-            bot:wrench(Botx, Boty -1)
-            sleep(4000)
-            bot:sendPacket(2, "action|dialog_return\ndialog_name|lock_edit\ntilex|"..xxx.."|\ntiley|"..yyy.."|\nbuttonClicked|recalcLock\n\ncheckbox_public|0\ncheckbox_ignore|1")
-        end
-    end
-
-    if not make_rotasi then
-
-        getBotPos()
-        while world:getTile(Botx +1, Boty).fg == 0 do
-            bot:place(Botx +1, Boty, entrance_itemId)
-            sleep(300)
-        end
-        while world:getTile(Botx -1, Boty).fg == 0 do
-            bot:place(Botx -1, Boty, entrance_itemId)
-            sleep(300)
-        end
-        placed_jammer = false
-        while world:getTile(Botx +1, Boty -1).fg == 0 do
-            placed_jammer = true
-            bot:place(Botx +1, Boty -1, 226)
-            sleep(300)
-        end
-        if placed_jammer then
-            sleep(300)
-            bot:hit(Botx +1, Boty -1)
-            sleep(300)
-        end
-        while world:getTile(Botx, Boty -1).fg == 0 do
-            bot:place(Botx, Boty -1, 202)
-            sleep(300)
-        end
-
-    end
-
-    breakSide()
-
-    ::cont2::
-    Reconnect(current_world)
-    for _, tile in pairs(getTiles()) do
-        if tile.y % 2 == 1 and (tile.fg ~= 0 or tile.bg ~= 0) and (tile.fg == 2 or tile.fg == 4 or tile.fg == 10 or tile.fg == 0) then
-
-            if bot.status ~= 1 then goto cont2 end
-            bot:findPath(tile.x -1, tile.y)
-            if bot:isInTile(tile.x -1, tile.y) then
-                while world:getTile(tile.x, tile.y).fg ~= 0 or world:getTile(tile.x, tile.y).bg ~= 0 do
-                    bot:hit(tile.x, tile.y)
-                    sleep(300)
-                end
-                if bot.status ~= 1 then goto cont2 end
-                while world:getTile(tile.x, tile.y-1).fg == 4 or world:getTile(tile.x, tile.y-1).fg == 3918 do
-                    bot:hit(tile.x, tile.y-1)
-                    sleep(300)
-                end
-                while world:getTile(tile.x, tile.y+1).fg == 4 or world:getTile(tile.x, tile.y+1).fg == 3918 do
-                    bot:hit(tile.x, tile.y+1)
-                    sleep(300)
-                end
-                if bot.status ~= 1 then goto cont2 end
+            while world:getTile(Botx -1, Boty).fg == 0 do
+                bot:place(Botx -1, Boty, entrance_itemId)
+                sleep(300)
             end
-
-            for _, tr in pairs(trash_list) do
-                if inventory:getItemCount(tr) > 190 then
-                    bot:trash(tr, inventory:getItemCount(tr))
-                    sleep(3000)
-                end
+            while world:getTile(Botx -1, Boty -1).fg == 0 do
+                bot:place(Botx -1, Boty -1, entrance_itemId)
+                sleep(300)
             end
-            upgradeBP()
-
-            if inventory:getItemCount(2) > 190 then
-                if emptyTile() == 0 then
-                    bot:trash(2, inventory:getItemCount(2) - 1)
-                    sleep(3000)
-                end
-                for _, tile4 in pairs(getTiles()) do
-                    if (tile4.x ~= 0 and tile4.x ~= 1 and tile4.x ~= 98 and tile4.x ~= 99) and tile4.y % 2 ~= 1 and tile4.y ~= 0 and tile4.fg == 0 then
-                        bot:findPath(tile4.x, tile4.y -1)
-
-                        if bot:isInTile(tile4.x, tile4.y -1) then
-                            while tile4.fg == 0 do
-                                bot:place(tile4.x, tile4.y, 2)
-                                sleep(300)
-
-                                if inventory:getItemCount(2) == 0 then break end
-                            end
-                        end
-                        if inventory:getItemCount(2) == 0 then break end
-                    end
-                end
+            placed_jammer = false
+            while world:getTile(Botx +1, Boty -1).fg == 0 do
+                placed_jammer = true
+                bot:place(Botx +1, Boty -1, 226)
+                sleep(300)
             end
-
-            if inventory:getItemCount(3) > 199 then
-                saveSeed()
-                join(current_world)
+            if placed_jammer then
+                sleep(300)
+                bot:hit(Botx +1, Boty -1)
+                sleep(300)
+            end
+            while world:getTile(Botx, Boty -1).fg == 0 do
+                bot:place(Botx, Boty -1, 202)
+                sleep(300)
+            end
+            while world:getTile(Botx-1, Boty+1).fg ~= 0 or world:getTile(Botx-1, Boty+1).bg ~= 0 do
+                bot:hit(Botx-1, Boty+1)
+                sleep(300)
+            end
+            for _, off in pairs(offset) do
                 Reconnect(current_world)
-                bot.auto_collect = true
+                while world:getTile(Botx +off.x, Boty +off.y).fg ~= 0 or world:getTile(Botx +off.x, Boty +off.y).bg ~= 0 do
+                    bot:hit(Botx +off.x, Boty +off.y)
+                    sleep(300)
+                end
+            end
+            Reconnect(current_world)
+            xx = Botx - 1
+            yy = Boty + 1
+            sleep(100)
+            bot:findPath(xx,yy)
+            sleep(2000)
+            while world:getTile(Botx -1, Boty +1).fg == 0 do
+                bot:place(Botx -1, Boty +1, door_itemId)
+                sleep(300)
+            end
+            sleep(2000)
+            if bot:isInTile(xx,yy) then
+                bot:wrench(Botx -1, Boty +1)
+                sleep(4000)
+                bot:sendPacket(2, "action|dialog_return\ndialog_name|door_edit\ntilex|"..xx.."|\ntiley|"..yy.."|\ndoor_name|\ndoor_target|\ndoor_id|"..door_ID)
+                sleep(5000)
+            end
+            Reconnect(current_world)
+            xxx = Botx
+            yyy = Boty -1
+            sleep(200)
+            bot:findPath(xxx,yyy-1)
+            sleep(2000)
+            if bot:isInTile(xxx,yyy-1) then
+                bot:wrench(Botx, Boty -1)
+                sleep(4000)
+                bot:sendPacket(2, "action|dialog_return\ndialog_name|lock_edit\ntilex|"..xxx.."|\ntiley|"..yyy.."|\nbuttonClicked|recalcLock\n\ncheckbox_public|0\ncheckbox_ignore|1")
             end
         end
-    end
 
+        if not make_rotasi then
 
-    while emptyTile() ~= 0 do
+            getBotPos()
+            while world:getTile(Botx +1, Boty).fg == 0 do
+                bot:place(Botx +1, Boty, entrance_itemId)
+                sleep(300)
+            end
+            while world:getTile(Botx -1, Boty).fg == 0 do
+                bot:place(Botx -1, Boty, entrance_itemId)
+                sleep(300)
+            end
+            while world:getTile(Botx, Boty -1).fg == 0 do
+                bot:place(Botx, Boty -1, 242)
+                sleep(300)
+            end
 
-        if inventory:getItemCount(3) < 25 then
-            join(save_world)
-            bot.auto_collect = true
-            join(current_world)
         end
-        --plant
-        ::pl::
+
+        breakSide()
+
+        ::cont2::
         Reconnect(current_world)
-        planted = 0
-        for _, tile3 in pairs(getTiles()) do
-            if tile3.fg == 3 then
-                planted = planted + 1
-            end
-        end
-        for _, tile2 in pairs(getTiles()) do
-            if planted == 25 then break end
-            if tile2.fg == 2 and tile2.y > 23 then
-                if world:getTile(tile2.x, tile2.y -1).fg == 0 then
-                    if bot.status ~= 1 then goto pl end
-                    bot:findPath(tile2.x, tile2.y -1)
+        for _, tile in pairs(getTiles()) do
+            if tile.y % 2 == 1 and (tile.fg ~= 0 or tile.bg ~= 0) and (tile.fg == 2 or tile.fg == 4 or tile.fg == 10 or tile.fg == 0) then
 
-                    if bot:isInTile(tile2.x, tile2.y -1) then
-                        while world:getTile(tile2.x, tile2.y -1).fg == 0 do
-                            if bot.status ~= 1 then goto pl end
-                            bot:place(tile2.x, tile2.y -1, 3)
-                            sleep(300)
+                if bot.status ~= 1 then goto cont2 end
+                bot:findPath(tile.x -1, tile.y)
+                if bot:isInTile(tile.x -1, tile.y) then
+                    while world:getTile(tile.x, tile.y).fg ~= 0 or world:getTile(tile.x, tile.y).bg ~= 0 do
+                        bot:hit(tile.x, tile.y)
+                        sleep(300)
+                    end
+                    if bot.status ~= 1 then goto cont2 end
+                    while world:getTile(tile.x, tile.y-1).fg == 4 or world:getTile(tile.x, tile.y-1).fg == 3918 do
+                        bot:hit(tile.x, tile.y-1)
+                        sleep(300)
+                    end
+                    while world:getTile(tile.x, tile.y+1).fg == 4 or world:getTile(tile.x, tile.y+1).fg == 3918 do
+                        bot:hit(tile.x, tile.y+1)
+                        sleep(300)
+                    end
+                    if bot.status ~= 1 then goto cont2 end
+                end
+
+                for _, tr in pairs(trash_list) do
+                    if inventory:getItemCount(tr) > 190 then
+                        bot:trash(tr, inventory:getItemCount(tr))
+                        sleep(3000)
+                    end
+                end
+                upgradeBP()
+
+                if inventory:getItemCount(2) > 190 then
+                    if emptyTile() == 0 then
+                        bot:trash(2, inventory:getItemCount(2) - 1)
+                        sleep(3000)
+                    end
+                    for _, tile4 in pairs(getTiles()) do
+                        if (tile4.x ~= 0 and tile4.x ~= 1 and tile4.x ~= 98 and tile4.x ~= 99) and tile4.y % 2 ~= 1 and tile4.y ~= 0 and tile4.fg == 0 then
+                            bot:findPath(tile4.x, tile4.y -1)
+
+                            if bot:isInTile(tile4.x, tile4.y -1) then
+                                while tile4.fg == 0 do
+                                    bot:place(tile4.x, tile4.y, 2)
+                                    sleep(300)
+
+                                    if inventory:getItemCount(2) == 0 then break end
+                                end
+                            end
+                            if inventory:getItemCount(2) == 0 then break end
                         end
                     end
                 end
+
+                if inventory:getItemCount(3) > 199 then
+                    saveSeed()
+                    join(current_world)
+                    Reconnect(current_world)
+                    bot.auto_collect = true
+                end
+                Trash()
             end
+        end
+
+
+        while emptyTile() ~= 0 do
+
+            if inventory:getItemCount(3) < 25 then
+                join(save_world)
+                bot.auto_collect = true
+                join(current_world)
+            end
+            --plant
+            ::pl::
+            Reconnect(current_world)
             planted = 0
             for _, tile3 in pairs(getTiles()) do
                 if tile3.fg == 3 then
                     planted = planted + 1
                 end
             end
-        end
-
-        readyTree = 0
-        for _, tree in pairs(getTiles()) do
-            if tree.fg == 3 and tree:canHarvest() then
-                readyTree = readyTree + 1
-            end
-        end
-
-        if readyTree == 0 then
-            sleep(32000)
-        end
-        --ht
-        ::hh::
-        Reconnect(current_world)
-        for _, tile3 in pairs(getTiles()) do
-            if tile3.fg == 3 and tile3:canHarvest() then
-                if bot.status ~= 1 then goto hh end
-                bot:findPath(tile3.x, tile3.y)
-
-                if bot:isInTile(tile3.x, tile3.y) then
-                    while world:getTile(tile3.x, tile3.y).fg == 3 do
-                        if bot.status ~= 1 then goto hh end
-                        bot:hit(tile3.x, tile3.y)
-                        sleep(300)
-                    end
-                    while world:getTile(tile3.x, tile3.y).fg == 0 do
+            for _, tile2 in pairs(getTiles()) do
+                if planted == 25 then break end
+                if tile2.fg == 2 and tile2.y > 23 then
+                    if world:getTile(tile2.x, tile2.y -1).fg == 0 then
                         if bot.status ~= 1 then goto pl end
-                        bot:place(tile3.x, tile3.y, 3)
-                        sleep(300)
+                        bot:findPath(tile2.x, tile2.y -1)
+
+                        if bot:isInTile(tile2.x, tile2.y -1) then
+                            while world:getTile(tile2.x, tile2.y -1).fg == 0 do
+                                if bot.status ~= 1 then goto pl end
+                                bot:place(tile2.x, tile2.y -1, 3)
+                                sleep(300)
+                            end
+                        end
                     end
+                end
+                planted = 0
+                for _, tile3 in pairs(getTiles()) do
+                    if tile3.fg == 3 then
+                        planted = planted + 1
+                    end
+                end
+            end
+
+            readyTree = 0
+            for _, tree in pairs(getTiles()) do
+                if tree.fg == 3 and tree:canHarvest() then
+                    readyTree = readyTree + 1
+                end
+            end
+
+            if readyTree == 0 then
+                sleep(32000)
+            end
+            --ht
+            ::hh::
+            Reconnect(current_world)
+            for _, tile3 in pairs(getTiles()) do
+                if tile3.fg == 3 and tile3:canHarvest() then
+                    if bot.status ~= 1 then goto hh end
+                    bot:findPath(tile3.x, tile3.y)
+
+                    if bot:isInTile(tile3.x, tile3.y) then
+                        while world:getTile(tile3.x, tile3.y).fg == 3 do
+                            if bot.status ~= 1 then goto hh end
+                            bot:hit(tile3.x, tile3.y)
+                            sleep(300)
+                        end
+                        while world:getTile(tile3.x, tile3.y).fg == 0 do
+                            if bot.status ~= 1 then goto pl end
+                            bot:place(tile3.x, tile3.y, 3)
+                            sleep(300)
+                        end
+                    end
+                end
+            end
+
+            ::pui::
+            Reconnect(current_world)
+            for _, tile4 in pairs(getTiles()) do
+                if (tile4.x ~= 0 and tile4.x ~= 1 and tile4.x ~= 98 and tile4.x ~= 99) and tile4.y % 2 ~= 1 and tile4.y ~= 0 and tile4.fg == 0 then
+                    if bot.status ~= 1 then goto pui end
+                    bot:findPath(tile4.x, tile4.y -1)
+
+                    if bot:isInTile(tile4.x, tile4.y -1) then
+                        while tile4.fg == 0 do
+                            if bot.status ~= 1 then goto pui end
+                            bot:place(tile4.x, tile4.y, 2)
+                            sleep(300)
+
+                            if inventory:getItemCount(2) == 0 then break end
+                        end
+                    end
+                    if inventory:getItemCount(2) == 0 then break end
                 end
             end
         end
 
-        ::pui::
+        ::tmp::
         Reconnect(current_world)
-        for _, tile4 in pairs(getTiles()) do
-            if (tile4.x ~= 0 and tile4.x ~= 1 and tile4.x ~= 98 and tile4.x ~= 99) and tile4.y % 2 ~= 1 and tile4.y ~= 0 and tile4.fg == 0 then
-                if bot.status ~= 1 then goto pui end
-                bot:findPath(tile4.x, tile4.y -1)
+        if emptyTile() == 0 then
+            for _, tile3 in pairs(getTiles()) do
+                if tile3.fg == 3 and tile3:canHarvest() then
+                    if bot.status ~= 1 then goto tmp end
+                    bot:findPath(tile3.x, tile3.y)
 
-                if bot:isInTile(tile4.x, tile4.y -1) then
-                    while tile4.fg == 0 do
-                        if bot.status ~= 1 then goto pui end
-                        bot:place(tile4.x, tile4.y, 2)
-                        sleep(300)
-
-                        if inventory:getItemCount(2) == 0 then break end
+                    if bot:isInTile(tile3.x, tile3.y) then
+                        while world:getTile(tile3.x, tile3.y).fg == 3 do
+                            if bot.status ~= 1 then goto tmp end
+                            bot:hit(tile3.x, tile3.y)
+                            sleep(300)
+                        end
                     end
                 end
-                if inventory:getItemCount(2) == 0 then break end
+                if inventory:getItemCount(2) > 190 then
+                    bot:trash(2, inventory:getItemCount(2) - 1)
+                    sleep(3000)
+                end
+                if inventory:getItemCount(3) > 199 then
+                    saveSeed()
+                    join(current_world)
+                    Reconnect(current_world)
+                    bot.auto_collect = true
+                end
             end
         end
-    end
 
-    ::tmp::
-    Reconnect(current_world)
-    if emptyTile() == 0 then
-        for _, tile3 in pairs(getTiles()) do
-            if tile3.fg == 3 and tile3:canHarvest() then
-                if bot.status ~= 1 then goto tmp end
-                bot:findPath(tile3.x, tile3.y)
 
-                if bot:isInTile(tile3.x, tile3.y) then
-                    while world:getTile(tile3.x, tile3.y).fg == 3 do
-                        if bot.status ~= 1 then goto tmp end
-                        bot:hit(tile3.x, tile3.y)
+        ::dc::
+        Reconnect(current_world)
+        for _, tile in pairs(getTiles()) do
+            if tile.x == 0 and tile.y % 2 ~= 1 and tile.y ~= 0 and tile.fg == 0 then
+                if bot.status ~= 1 then goto dc end
+                bot:findPath(0, tile.y)
+
+                if bot:isInTile(0, tile.y) then
+                    getBotPos()
+                    while world:getTile(Botx + 1, Boty).fg ~= plat_itemId do
+                        if bot.status ~= 1 then goto dc end
+                        bot:place(Botx + 1, Boty, plat_itemId)
                         sleep(300)
                     end
                 end
             end
-            if inventory:getItemCount(2) > 190 then
-                bot:trash(2, inventory:getItemCount(2) - 1)
-                sleep(3000)
-            end
-            if inventory:getItemCount(3) > 199 then
-                saveSeed()
-                join(current_world)
-                Reconnect(current_world)
-                bot.auto_collect = true
-            end
         end
-    end
+        ::dc2::
+        Reconnect(current_world)
+        for _, tile in pairs(getTiles()) do
+            if tile.x == 99 and tile.y % 2 ~= 1 and tile.y ~= 0 and tile.fg == 0 then
+                if bot.status ~= 1 then goto dc2 end
+                bot:findPath(99, tile.y)
 
-
-    ::dc::
-    Reconnect(current_world)
-    for _, tile in pairs(getTiles()) do
-        if tile.x == 0 and tile.y % 2 ~= 1 and tile.y ~= 0 and tile.fg == 0 then
-            if bot.status ~= 1 then goto dc end
-            bot:findPath(0, tile.y)
-
-            if bot:isInTile(0, tile.y) then
-                getBotPos()
-                while world:getTile(Botx + 1, Boty).fg ~= plat_itemId do
-                    if bot.status ~= 1 then goto dc end
-                    bot:place(Botx + 1, Boty, plat_itemId)
-                    sleep(300)
+                if bot:isInTile(99, tile.y) then
+                    getBotPos()
+                    while world:getTile(Botx - 1, Boty).fg ~= plat_itemId do
+                        if bot.status ~= 1 then goto dc2 end
+                        bot:place(Botx - 1, Boty, plat_itemId)
+                        sleep(300)
+                    end
                 end
             end
         end
-    end
-    ::dc2::
-    Reconnect(current_world)
-    for _, tile in pairs(getTiles()) do
-        if tile.x == 99 and tile.y % 2 ~= 1 and tile.y ~= 0 and tile.fg == 0 then
-            if bot.status ~= 1 then goto dc2 end
-            bot:findPath(99, tile.y)
 
-            if bot:isInTile(99, tile.y) then
-                getBotPos()
-                while world:getTile(Botx - 1, Boty).fg ~= plat_itemId do
-                    if bot.status ~= 1 then goto dc2 end
-                    bot:place(Botx - 1, Boty, plat_itemId)
-                    sleep(300)
-                end
+    end
+
+
+    function Reconnect(worlds)
+        if bot.status ~= 1 then
+            while bot.status ~= 1 do
+                bot:connect()
+                sleep(10000)
             end
+            join(worlds)
         end
-    end
-
-end
-
-
-function Reconnect(worlds)
-    if bot.status ~= 1 then
-        while bot.status ~= 1 do
-            bot:connect()
-            sleep(10000)
-        end
-        join(worlds)
-    end
-    worldName = tostring(world.name)
-    if worldName == "" and worldName == "EXIT" then
-        join(worlds)
-    end
-end
-
-
-function ReconnectStorage(worlds)
-    if bot.status ~= 1 then
-        while bot.status ~= 1 do
-            bot:connect()
-            sleep(10000)
-        end
-        join(worlds)
-    end
-    worldName = tostring(world.name)
-    if worldName ~= "" and worldName ~= "EXIT" then
-        getBotPos()
-        if world:getTile(Botx,Boty).fg == 6 then
+        worldName = tostring(world.name)
+        if worldName == "" and worldName == "EXIT" then
             join(worlds)
         end
     end
-end
 
 
-function main()
-
-    x = 1
-    worldList = {}
-    worldl = ""
-    while x < max_df do
-        makeDF()
-        table.insert(worldList, current_world)
-        for _, gg in pairs(worldList) do
-            worldl = worldl..gg.."\n"
+    function ReconnectStorage(worlds)
+        if bot.status ~= 1 then
+            while bot.status ~= 1 do
+                bot:connect()
+                sleep(10000)
+            end
+            join(worlds)
         end
-        webHookEmbed("WORLD LIST", worldl)
-        x = x + 1
+        worldName = tostring(world.name)
+        if worldName ~= "" and worldName ~= "EXIT" then
+            getBotPos()
+            if world:getTile(Botx,Boty).fg == 6 then
+                join(worlds)
+            end
+        end
     end
 
-    bot.auto_reconnect = false
-    sleep(500)
-    bot:disconnect()
-    sleep(10000)
-end
 
-main()
+    function main()
+
+        x = 1
+        worldList = {}
+        worldl = ""
+        while x < max_df do
+            makeDF()
+            table.insert(worldList, current_world)
+            for _, gg in pairs(worldList) do
+                worldl = worldl..gg.."\n"
+            end
+            webHookEmbed("WORLD LIST", worldl)
+            x = x + 1
+        end
+
+        bot.auto_reconnect = false
+        sleep(500)
+        bot:disconnect()
+        sleep(10000)
+    end
+
+    main()
