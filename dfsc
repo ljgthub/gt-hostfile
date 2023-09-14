@@ -184,8 +184,8 @@
             if obj.id == toget then
                 bot.collect_range = 2
                 if not bot:isInTile(math.floor(obj.x/32), math.floor(obj.y/32)) then
-                    bot:findPath(math.floor(obj.x/32), math.floor(obj.y/32))
-                    while not bot:isInTile(math.floor(obj.x/32), math.floor(obj.y/32)) do
+                    bot:findPath(math.floor(obj.x/32) +1, math.floor(obj.y/32))
+                    while not bot:isInTile(math.floor(obj.x/32) +1, math.floor(obj.y/32)) do
                         sleep(100)
                     end
                     sleep(1000)
@@ -267,8 +267,8 @@
         for _, obj in pairs(getObjects()) do
             if obj.id == 98 then
                 bot.collect_range = 2
-                if not bot:isInTile(math.floor(obj.x/32), math.floor(obj.y/32)) then
-                    bot:findPath(math.floor(obj.x/32), math.floor(obj.y/32))
+                if not bot:isInTile(math.floor(obj.x/32) +1, math.floor(obj.y/32)) then
+                    bot:findPath(math.floor(obj.x/32) +1, math.floor(obj.y/32))
                 end
                 for _, obj2 in pairs(getObjects()) do
                     if obj2.id == 98 then
@@ -752,7 +752,6 @@
                 end
             end
         end
-
     end
 
 
