@@ -17,6 +17,17 @@ function join(worlds, id)
 
 end
 
+function webHook(desc)
+    wh = Webhook.new(WebhookUrl)
+    wh.username = "AUTO HT"
+    wh.avatar_url = "https://cdn.discordapp.com/avatars/208654299738144768/bb27c340964dcd6a75ff1883d1341a6e.png?size=1024"
+    wh.embed1.use = true
+    wh.embed1.title = "AUTO HT PROVIDER BY SC STORE"
+    wh.embed1.description = desc
+    wh.footer.text = "SC STORE: https://discord.gg/YXY8vfVV"
+    wh:send()
+end
+
 function harvestProvider(worlds)
 
     join(worlds, door_id)
@@ -156,7 +167,9 @@ function main()
     if loop then
         while true do
             for _, worlds in pairs(farms) do
+                webHook("CURRENT WORLD: "..worlds)
                 harvestProvider(worlds)
+                webHook("DONE HARVESTING: "..worlds)
             end
             join(farms[1], door_id)
             while true do
@@ -173,7 +186,9 @@ function main()
         end
     else
         for _, worlds in pairs(farms) do
+            webHook("CURRENT WORLD: "..worlds)
             harvestProvider(worlds)
+            webHook("DONE HARVESTING: "..worlds)
         end
     end
 
