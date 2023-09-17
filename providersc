@@ -24,7 +24,7 @@ function webHook(desc)
     wh.embed1.use = true
     wh.embed1.title = "AUTO HT PROVIDER BY SC STORE"
     wh.embed1.description = desc
-    wh.footer.text = "SC STORE: https://discord.gg/YXY8vfVV"
+    wh.embed1.footer.text = "SC STORE: https://discord.gg/YXY8vfVV"
     wh:send()
 end
 
