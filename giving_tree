@@ -84,6 +84,8 @@ function giveDeco(world)
         if tile.fg == giving_tree or tile.bg == giving_tree then
             if tile:getExtra().fruit_count ~= deco_percent then
                 bot:findPath(tile.x, tile.y)
+                xx = tile.x
+                yy = tile.y
                 sleep(200)
                 while bot:isInTile(tile.x, tile.y) and tile:getExtra().fruit_count < deco_percent and tile:getExtra().growth < growth_time do
                     bot:place(tile.x, tile.y, tree_deco)
@@ -92,6 +94,8 @@ function giveDeco(world)
                         getDeco()
                         if not bot:isInWorld(world.."|"..farm_id) then
                             goWorld(world, farm_id)
+                            bot:findPath(xx, yy)
+                            sleep(200)
                         end
                     end
                 end
