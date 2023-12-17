@@ -12,6 +12,7 @@
 --===========================================================================================================================================================
 
 
+
 -- EMOJIS
 bot_emoji     = "<:bot2:1141394354372624484>"
 globe_emoji   = "<a:globe27:1140999010895794297>"
@@ -170,6 +171,7 @@ end
 function webHookEmbed(desc)
 
     wh = Webhook.new(whURL)
+	wh.content = "**owner discord:** <@601730095144763394> \n**discord server:** https://discord.gg/dAmnFgeewg"
     wh.username = "AUTO GHOST BY SC STORE"
     wh.avatar_url = "https://static.wikia.nocookie.net/growtopia/images/a/a3/GhostA1.png/revision/latest?cb=20220325130603"
     wh.embed1.use = true
