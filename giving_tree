@@ -51,6 +51,12 @@ end
 function getDeco()
     goWorld(storage, storage_id)
 
+    sleep(200)
+    bot.collect_range = 2
+    bot.auto_collect = true
+
+    if inventory:getItemCount(tree_deco) > deco_percent then return end
+
     if bot:isInWorld(storage) then
         for _, obj in pairs(getObjects()) do
             if obj.id == tree_deco then
