@@ -25,6 +25,7 @@
     function webHookEmbed(title, desc)
 
         wh = Webhook.new(webhook_URL)
+        wh.content = "**owner discord:** <@601730095144763394>"
         wh.username = "AUTO DF BY SC STORE"
         wh.avatar_url = "https://static.vecteezy.com/system/resources/previews/003/005/853/non_2x/logo-monogram-design-template-free-vector.jpg"
         wh.embed1.use = true
