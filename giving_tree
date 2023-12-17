@@ -88,6 +88,12 @@ function giveDeco(world)
                 while bot:isInTile(tile.x, tile.y) and tile:getExtra().fruit_count < deco_percent and tile:getExtra().growth < growth_time do
                     bot:place(tile.x, tile.y, tree_deco)
                     sleep(250)
+                    if inventory:getItemCount(tree_deco) < deco_percent then
+                        getDeco()
+                        if not bot:isInWorld(world.."|"..farm_id) then
+                            goWorld(world, farm_id)
+                        end
+                    end
                 end
             end
         end
