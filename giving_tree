@@ -11,6 +11,9 @@
 bot = getBot()
 inventory = bot:getInventory()
 
+save_world = save_world:upper()
+storage = storage:upper()
+
 tree_deco = 3204
 giving_tree = 3200
 prize_id = 3240
@@ -134,7 +137,7 @@ function drop()
 
     goWorld(save_world, save_ID)
 
-    if bot:isInWorld(save_world.."|"..save_ID) then
+    if bot:isInWorld(save_world) then
         bot.auto_collect = false
         bot:drop(prize_id, inventory:getItemCount(prize_id))
         sleep(500)
@@ -163,15 +166,15 @@ function main()
     if loop_world then
         while true do
             for _, farm in pairs(farm_worlds) do
-                giveDeco(farm)
-                harvest(farm)
+                giveDeco(farm:upper())
+                harvest(farm:upper())
                 drop()
             end
         end
     else
         for _, farm in pairs(farm_worlds) do
-            giveDeco(farm)
-            harvest(farm)
+            giveDeco(farm:upper())
+            harvest(farm:upper())
             drop()
         end
     end
