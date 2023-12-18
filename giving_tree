@@ -55,19 +55,15 @@ function getDeco()
     bot.collect_range = 2
     bot.auto_collect = true
 
-    if inventory:getItemCount(tree_deco) > deco_percent then return end
+    for _, obj in pairs(getObjects()) do
+        if obj.id == tree_deco then
+            bot:findPath(math.floor(obj.x/32), math.floor(obj.y/32))
+            sleep(200)
+            bot.collect_range = 2
+            bot.auto_collect = true
+            sleep(200)
 
-    if bot:isInWorld(storage) then
-        for _, obj in pairs(getObjects()) do
-            if obj.id == tree_deco then
-                bot:findPath(math.floor(obj.x/32), math.floor(obj.y/32))
-                sleep(200)
-                bot.collect_range = 2
-                bot.auto_collect = true
-                sleep(200)
-
-                if inventory:getItemCount(tree_deco) > deco_percent then break end
-            end
+            if inventory:getItemCount(tree_deco) > deco_percent then break end
         end
     end
 
