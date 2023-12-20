@@ -1,879 +1,181 @@
+--==========================================================================================================================================================================
+--==========================================================================================================================================================================
+--==========================================================================================================================================================================
+--==========================================================================================================================================================================
+--==========================================================================================================================================================================
+--==========================================================================================================================================================================
+--==========================================================================================================================================================================
+--==========================================================================================================================================================================
 
 
-hunt_worlds = {}
-id_worlds = ""
+bot = getBot()
+inventory = bot:getInventory()
 
-for id, name in pairs(bots) do
-    if bot.name:lower() == id:lower() then
-        hunt_worlds = name.hunt_world
-        id_worlds = name.id
+save_world = save_world:upper()
+storage = storage:upper()
+
+tree_deco = 3204
+giving_tree = 3200
+prize_id = 3240
+
+farm_worlds = {}
+farm_id = ""
+
+growth_time = 14400
+
+hot_count = 0
+deco_count = 0
+
+for index, val in pairs(bots) do
+    if index == bot.name then
+        farm_worlds = val.farm_worlds
+        if val.farm_id ~= nil then
+            farm_id = val.farm_id
+        end
     end
 end
 
-relog_on = false
+function WEBHOOOK(title, desc)
+    webhook = Webhook.new(webhook_URL)
 
-bot.move_interval = move_interval
-bot.move_range = 3
-bot.collect_range = 5
-bot.object_collect_delay = 200
-bot.collect_interval = 200
+    webhook.embed1.use = true
+    webhook.embed1.title = title
+    webhook.embed1.description = desc
 
-ghost_jar           = 3720
-jar_seed            = 3721
-ghost_in_a_jar      = 3722
-mind_ghost_in_a_jar = 6080
-neutron_pack        = 3714
-neutron_gun         = 3716
-occulum             = 4552
-goggles             = 3710
-rubber_boots        = 3718
-
-current_tilex = 0
-current_tiley = 0
-
-move_range = 3
-
-max_warp = 0
-
-path_time = os.time()
-path_time2 = os.time()
-last_relog = os.time()
-relog_interval = 1200
-relog_interval2 = 1800
-
-return_func = false
-stop_program = false
-
-save_worldName = save_world:match("(.+)|"):upper()
-drop_worldName = drop_world:match("(.+)|"):upper()
-
-data = {{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},{bot = "", epoch = 0},}
-
-function webHook(title, desc)
-
-    if true then return end
-
-    local foot = "bot: "..bot.name
-    local script = [[
-        $webHookUrl = "]]..wh_status..[["
-        [System.Collections.ArrayList]$embedArray = @()
-        $color = '16777215'
-        $title = ']]..title..[['
-        $description = ']]..desc..[['
-        $footers = ']]..foot..[['
-        $embedObject = [PSCustomObject]@{
-            color = $color
-            title = $title
-            description = $description
-			footer =  [PSCustomObject]@{ 
-                text = $footers 
-            }
-        }
-        $embedArray.Add($embedObject)
-        $payload = [PSCustomObject]@{
-            embeds = $embedArray
-        }
-        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        Invoke-RestMethod -Uri $webHookUrl -Body ($payload | ConvertTo-Json -Depth 4) -Method Post -ContentType 'application/json'
-    ]]
-    local pipe = io.popen('powershell -windowstyle Hidden -command -', 'w')
-    pipe:write(script)
-    pipe:close()
+    webhook:send()
 end
 
-function webHookEmbed(title, desc)
-
-    local foot = "world: "..bot:getWorld().name
-
-    wh = Webhook.new(whURL)
-    wh.username = "AUTO GHOST"
-    wh.avatar_url = "https://static.wikia.nocookie.net/growtopia/images/a/a3/GhostA1.png/revision/latest?cb=20220325130603"
-    wh.embed1.use = true
-    wh.embed1.title = title
-    wh.embed1.description = desc
-    wh.embed1.footer.text = foot
-    wh:send()
+function goWorld(world, id)
+    sleep(1000)
+    bot:warp(world, id)
+    sleep(5000)
 end
 
-function getposx()
+function getDeco()
+    goWorld(storage, storage_id)
 
-    if not getBot():getWorld():getLocal() then
-        sleep(200)
-        return
-    end
+    sleep(200)
+    bot.collect_range = 2
+    bot.auto_collect = true
 
-    return math.floor(getBot():getWorld():getLocal().posx/32)
-end
-
-function getposy()
-
-    if not getBot():getWorld():getLocal() then
-        sleep(200)
-        return
-    end
-
-    return math.floor(getBot():getWorld():getLocal().posy/32)
-end
-
-function bot:findPath(x, y)
-
-    if getposx() == x and getposy() == y then return end
-
-    path = bot:getPath(x, y)
-
-    if path[1] == nil then return end
-
-    for i = 1, #path, move_range do
-        bot:moveTile(path[i].x, path[i].y)
-        sleep(move_interval)
-    end
-    bot:moveTile(path[#path].x, path[#path].y)
-    sleep(move_interval)
-
-    if not bot:isInTile(x,y) then return end
-
-end
-
-
-function checkWorld(world)
-
-    if bot:getWorld().name ~= world:match("(.+)|"):upper() then
-        sleep(500)
-        bot:warp(world)
-        sleep(5000)
-    end
-
-    if getposx() == nil or getposy() == nil then
-        bot:warp("EXIT")
-        sleep(5000)
-    end
-
-    if bot:getWorld().name ~= world:match("(.+)|"):upper() then
-        sleep(500)
-        bot:warp(world)
-        sleep(5000)
-    end
-
-    if getposx() == nil or getposy() == nil then
-        bot:disconnect()
-        sleep(3000)
-        while bot.status ~= BotStatus.online do
-            bot:connect()
-            sleep(10000)
-        end
-    end
-
-    if bot:getWorld().name ~= world:match("(.+)|"):upper() then
-        sleep(500)
-        bot:warp(world)
-        sleep(5000)
-    end
-
-    if bot:getWorld():getTile(getposx(), getposy()).fg == 6 then
-        sleep(500)
-        bot:warp(world)
-        sleep(5000)
-    end
-
-    if bot:getInventory():getItemCount(48) > 0 then
-        if bot:getInventory():getItem(48).isActive then
-            bot:unwear(48)
-            sleep(3000)
-        end
-    end
-
-end
-
-function itemCount(id)
-    return bot:getInventory():getItemCount(id)
-end
-
-function getGear()
-
-    bot.auto_collect = false
-
-    for _, bots in pairs(getBots()) do
-        local g = 1
-        while bots:getWorld().name == save_worldName:upper() and bots.name ~= bot.name do
-            sleep(3000)
-            g = g + 1
-            if g >= 10 then
-                g = 1
-                break
-            end
-        end
-    end
-
-    checkWorld(save_world)
-
-    if not getBot():getWorld():getLocal() then
-        sleep(200)
-        return
-    end
-
-    for _, gear in pairs(gears) do
-
-        if itemCount(gear) == 1 then
-            if not bot:getInventory():getItem(gear).isActive then
-                sleep(500)
-                bot:wear(gear)
-                sleep(4000)
-            end
-        end
-
-        while itemCount(gear) ~= 1 do
-
-        for _, obj in pairs(bot:getWorld():getObjects()) do
-            if obj.id == gear then
-                if not bot:isInTile(math.floor(obj.x/32) +1, math.floor(obj.y/32)) then
-                    bot:findPath(math.floor(obj.x/32) +1,math.floor(obj.y/32))
-                    sleep(3000)
-                end
-            end
-        end
-
-        if itemCount(gear) < 1 then
-            bot:collect(1, 500)
-            sleep(1000)
-        end
-
-        if itemCount(gear) > 1 then
-            sleep(500)
-            bot:drop(gear, bot:getInventory():getItemCount(gear) - 1)
-            sleep(4000)
-        end
-
-        if itemCount(gear) > 0 then
-            if not bot:getInventory():getItem(gear).isActive then
-                sleep(500)
-                bot:wear(gear)
-                sleep(4000)
-            end
-        end
-
-        sleep(100)
-        end
-    end
-
-
-    local ntp_count  = 0
-    local ntg_count  = 0
-    local oc_count   = 0
-    local gogg_count = 0
-    local rb_count   = 0
-    for id, count in pairs(getBot():getWorld().growscan:getObjects()) do
-        if id == neutron_pack then ntp_count = count end
-        if id == neutron_gun then ntg_count = count end
-        if id == occulum then oc_count = count end
-        if id == goggles then gogg_count = count end
-        if id == rubber_boots then rb_count = count end
-    end
-
-    webHookEmbed(bot.name, neutron_packE.." : **"..ntp_count.."** \n"..neutron_gunE.." : **"..ntg_count.."** \n"..occulum_emoji.." : **"..oc_count.."** \n"..goggles_emoji.." : **"..gogg_count.."** \n"..boots_emoji.." : **"..rb_count.."** \n")
-end
-
-
-function getJar()
-
-    bot.auto_collect = false
-
-    checkWorld(save_world)
-
-    if not getBot():getWorld():getLocal() then
-        sleep(200)
-        return
-    end
-
-    local jar_count = 0
-    for id, obj in pairs(getBot():getWorld():getObjects()) do
-        if obj.id == ghost_jar then
-            jar_count = jar_count + obj.count
-        end
-    end
-
-    if jar_count < 1 then
-        webHookEmbed(bot.name, " NO MORE JARS ")
-        checkWorld(drop_world)
-
-        if not getBot():getWorld():getLocal() then
+    for _, obj in pairs(getObjects()) do
+        if obj.id == tree_deco then
+            bot:findPath(math.floor(obj.x/32), math.floor(obj.y/32))
             sleep(200)
-            return
-        end
-
-        for _, tile in pairs(bot:getWorld():getTiles()) do
-            if tile.fg == tile_id then
-    
-                if current_tilex == 0 and current_tiley == 0 then
-                    bot:findPath(tile.x +1, tile.y)
-                else
-                    bot:findPath(current_tilex, current_tiley)
-                end
-    
-                sleep(2000)
-                bot:moveRight()
-                sleep(1000)
-                bot:moveLeft()
-                sleep(2000)
-                bot:drop(jar_seed, itemCount(jar_seed) - 1)
-                sleep(2000)
-                bot:drop(ghost_in_a_jar, itemCount(ghost_in_a_jar) - 1)
-                sleep(2000)
-                break
-            end
-        end
-
-        while itemCount(jar_seed) > 1 do
-            bot:moveRight()
-            sleep(1000)
-            bot:moveRight()
-            sleep(1000)
-            bot:moveLeft()
-            sleep(1000)
-            current_tilex = getposx()
-            current_tiley = getposy()
-            sleep(1000)
-            bot:drop(jar_seed, itemCount(jar_seed) - 1)
-            sleep(4000)
-        end
-
-        webHookEmbed(bot.name, "BOT DROPPED ALL SEEDS AND GIJ")
-
-        bot.auto_reconnect = false
-        bot:disconnect()
-        stop_program = true
-        return
-    end
-
-    for _, obj in pairs(bot:getWorld():getObjects()) do
-
-        if obj.id == ghost_jar then
-            last_obj = obj
-        end
-    end
-
-    if last_obj.id == ghost_jar then
-        sleep(500)
-        bot:findPath(math.floor(last_obj.x/32) +1,math.floor(last_obj.y/32))
-        sleep(2000)
-        bot:collect(1, 500)
-        sleep(2000)
-        bot:moveRight()
-        sleep(1000)
-        bot:moveLeft()
-        sleep(2000)
-        bot:drop(ghost_jar, itemCount(ghost_jar) - max_jar)
-        sleep(4000)
-    end
-
-    local jars_count = 0
-    for id, count in pairs(getBot():getWorld().growscan:getObjects()) do
-        if id == ghost_jar then jars_count = count end
-    end
-    webHookEmbed(bot.name, jar_emoji.." : **"..jars_count.."**")
-
-end
-
-function dropItem()
-
-    if itemCount(ghost_in_a_jar) < save_countGIJ and itemCount(jar_seed) < save_countseed then return end
-
-    if itemCount(ghost_in_a_jar) >= save_countGIJ then
-        itemToDrop = ghost_in_a_jar
-    elseif itemCount(jar_seed) >= save_countseed then
-        itemToDrop = jar_seed
-    end
-
-    bot.auto_collect = false
-
-    for _, bots in pairs(getBots()) do
-        local g = 1
-        while bots:getWorld().name == drop_worldName:upper() and bots.name ~= bot.name do
-            sleep(3000)
-            g = g + 1
-            if g >= 10 then
-                g = 1
-                break
-            end
-        end
-    end
-
-    checkWorld(drop_world)
-
-    if not getBot():getWorld():getLocal() then
-        sleep(200)
-        return
-    end
-
-    for _, tile in pairs(bot:getWorld():getTiles()) do
-        if tile.fg == tile_id then
-
-            if current_tilex == 0 and current_tiley == 0 then
-                bot:findPath(tile.x +1, tile.y)
-            else
-                bot:findPath(current_tilex, current_tiley)
-            end
-
-            sleep(2000)
-            bot:moveRight()
-            sleep(1000)
-            bot:moveLeft()
-            sleep(2000)
-            bot:drop(itemToDrop, itemCount(itemToDrop) - 1)
-            sleep(4000)
-            break
-        end
-    end
-
-    while itemCount(itemToDrop) > 1 do
-        bot:moveRight()
-        sleep(1000)
-        bot:moveRight()
-        sleep(1000)
-        bot:moveLeft()
-        sleep(1000)
-        current_tilex = getposx()
-        current_tiley = getposy()
-        sleep(1000)
-        bot:drop(itemToDrop, itemCount(itemToDrop) - 1)
-        sleep(4000)
-    end
-
-    local jars_count  = 0
-    local gij_count   = 0
-    local seed_count  = 0
-    for id, count in pairs(getBot():getWorld().growscan:getObjects()) do
-        if id == ghost_jar then jars_count = count end
-        if id == ghost_in_a_jar then gij_count = count end
-        if id == jar_seed then seed_count = count end
-    end
-    webHookEmbed(bot.name, gij_emoji.." : **"..gij_count.."** \n"..seed_emoji.." : **"..seed_count.."** \n")
-end
-
-function checkItems(world)
-
-    for _, gear in pairs(gears) do
-
-        if itemCount(gear) ~= 1 then
-            getGear()
-        else
-            if not bot:getInventory():getItem(gear).isActive then
-                bot:wear(gear)
-                sleep(3000)
-            end
-        end
-    end
-
-    if itemCount(ghost_jar) < 1 or itemCount(ghost_jar) > max_jar then
-        getJar()
-    end
-
-    if stop_program then return end
-
-    if bot:getWorld().name ~= world:upper() then
-        sleep(500)
-        bot:warp(world.."|"..id_worlds)
-        sleep(5000)
-    end
-
-    if getposx() == nil or getposy() == nil then
-        bot:warp("EXIT")
-        sleep(5000)
-    end
-
-    if bot:getWorld().name ~= world:upper() then
-        sleep(500)
-        bot:warp(world.."|"..id_worlds)
-        sleep(5000)
-    end
-
-    if getposx() == nil or getposy() == nil then
-        bot:disconnect()
-        sleep(3000)
-        while bot.status ~= BotStatus.online do
-            bot:connect()
-            sleep(10000)
-
-        end
-    end
-end
-
-
-function getStatus(bots)
-    if bots.status == BotStatus.offline then return "<a:offline:1092291705455247430>" end
-    if bots.status == BotStatus.online then return "<a:online:1092291689147797565>" end
-    if bots.status == BotStatus.account_banned then return "account_banned" end
-    if bots.status == BotStatus.location_banned then return "location_banned" end
-    if bots.status == BotStatus.version_update then return "version_update" end
-    if bots.status == BotStatus.error_connecting then return "<:Error45:1098980581682983034>" end
-    if bots.status == BotStatus.maintenance  then return "maintenance" end
-    if bots.status == BotStatus.too_many_login then return "too_many_login" end
-    if bots.status == BotStatus.server_overload then return "server_overload" end
-    if bots.status == BotStatus.http_block then return "http_block" end
-    return "unknown"
-end
-
-bots_worlds = {}
-bots_act = {}
-wh_interval = 30
-last_wh = os.time()
-first_bot = ""
-
-function checkStatus()
-
-    cont = ""
-    cont2 = ""
-    for index, bots in pairs(getBots()) do
-
-        if bots_worlds[index] == nil then
-            bots_worlds[index] = bots:getWorld().name
-        end
-
-        if bots_act[index] == nil then
-            bots_act[index] = os.time(os.date("*t"))
-        end
-
-        if bots_worlds[index] ~= bots:getWorld().name then
-            bots_worlds[index] = bots:getWorld().name
-            bots_act[index] = os.time(os.date("*t"))
-        end
-
-        cont = cont.."----------\n**"..bots.name.."**: \nstatus: "..getStatus(bots).."\nlast act: ".."<t:"..bots_act[index]..":R>".."\n"
-        cont2 = cont2..bots.name.."\n"..bots_act[index].."\n"
-
-        if bots.name == bot.name then
-            if os.time(os.date("*t")) - bots_act[index] >= 600 then return_func = true end
-        end
-
-        if bots.status == BotStatus.online and first_bot == "" then
-            first_bot = bots.name
-        elseif bots.status ~= BotStatus.online and first_bot == bots.name then
-            first_bot = ""
-        end
-    end
-
-    if first_bot == bot.name and os.time() > last_wh + wh_interval then
-        last_wh = os.time()
-
-        local file = io.open("myfile.txt", "w")
-
-        if file ~= nil then
-            file:write(cont2)
-            file:close()
-        else
-            io.output("myfile.txt")
-            io.close()
-        end
-
-        webHook("STATUS", cont)
-    end
-end
-
-function isRelog()
-
-    local file = io.open("myfile.txt", "r")
-
-    if file ~= nil then
-
-        i = 1
-        x = 1
-        for line in file:lines() do
-            if i % 2 ~= 0 then
-                data[x].bot = line
-            else
-                data[x].epoch = line
-                x = x + 1
-            end
-            i = i + 1
-        end
-
-        file:close()
-    else
-        io.output("myfile.txt")
-        io.close()
-    end
-
-    for index, val in pairs(data) do
-        if val.bot == bot.name then
-            if tonumber(val.epoch) < os.time() + relog_interval then
-                return
-            end
-        end
-    end
-
-    for index, val in pairs(data) do
-        if val.bot == bot.name then
-            if tonumber(val.epoch) >= os.time() + relog_interval then
-                webHook("20 mins afk", "relogging in...")
-                bot:disconnect()
-                sleep(5000)
-                bot:connect()
-                sleep(10000)
-                while bot.status ~= BotStatus.online do
-                    sleep(10000)
-                end
-            end
-        end
-    end
-end
-
-function timeRelog()
-
-    if relog_on then
-        if os.time() >= last_relog + relog_interval2 then
-            last_relog = os.time()
-            bot:disconnect()
-            sleep(5000)
-            bot:connect()
-            sleep(10000)
-            while bot.status ~= BotStatus.online do
-                sleep(10000)
-            end
-        end
-    end
-
-end
-
-function hunt(world)
-
-    while bot.status ~= BotStatus.online do sleep(10000) end
-
-    dropItem()
-    checkItems(world)
-
-    if stop_program then return end
-
-    npc_count = 0
-    for _, npc in pairs(bot:getWorld():getNPCs()) do
-        if npc.type == 1 then
-            npc_count = npc_count + 1
-        end
-    end
-
-    if npc_count < 2 then return end
-
-    local start_time = os.time()
-    while true do
-
-        if bot.status ~= BotStatus.online then return end
-
-        dropItem()
-        checkItems(world)
-        checkStatus()
-        isRelog()
-        timeRelog()
-
-        bot.auto_collect = true
-
-        if return_func then
-            webHookEmbed(bot.name, "10 mins no activity")
-            bot:disconnect()
-            sleep(5000)
-            bot:connect()
-            sleep(10000)
-            return_func = false
-            return
-        end
-
-        if stop_program then return end
-
-        if os.time() > start_time + 30 then return end
-
-        npc_count = 0
-        for _, npc in pairs(bot:getWorld():getNPCs()) do
-            if npc.type == 1 then
-                npc_count = npc_count + 1
-            end
-        end
-
-        if npc_count < 2 then break end
-
-        for _, npc in pairs(bot:getWorld():getNPCs()) do
-
-            dropItem()
-            checkItems(world)
-            isRelog()
-            timeRelog()
-
+            bot.collect_range = 2
             bot.auto_collect = true
+            sleep(200)
 
-            if stop_program then return end
+            if inventory:getItemCount(tree_deco) > deco_percent then break end
+        end
+    end
 
-            local breakOuterLoop = false
+    deco_count = 0
+    for _, obj in pairs(getObjects()) do
+        if obj.id == tree_deco then
+            deco_count = deco_count + obj.count
+        end
+    end
+    WEBHOOOK("STOCK INFO", "TREE DECO: "..deco_count.."\nPRIZE COUNT: "..hot_count)
+end
 
-            if bot.status ~= 1 then break end
+function giveDeco(world)
+    if inventory:getItemCount(tree_deco) < deco_percent then
+        getDeco()
+    end
 
-            if npc.type == 1 then
+    if not bot:isInWorld(world.."|"..farm_id) then
+        goWorld(world, farm_id)
+    end
 
-                if auto_leave then
-                    for _, player in pairs(bot:getWorld():getPlayers()) do
-                        for _, exempt in pairs(exempted) do
-                            if player.name:lower() ~= exempt:lower() and (player.name:lower() ~= bot.name:lower() and player.name:lower():match("(.+)_") ~= bot.name:lower()) then return end
+    for _, tile in pairs(getTiles()) do
+        if tile.fg == giving_tree or tile.bg == giving_tree then
+            if tile:getExtra().fruit_count ~= deco_percent then
+                bot:findPath(tile.x, tile.y)
+                sleep(200)
+                while bot:isInTile(tile.x, tile.y) and tile:getExtra().fruit_count < deco_percent and tile:getExtra().growth < growth_time do
+                    bot:place(tile.x, tile.y, tree_deco)
+                    sleep(250)
+                    if inventory:getItemCount(tree_deco) < deco_percent then
+                        getDeco()
+                        if not bot:isInWorld(world.."|"..farm_id) then
+                            goWorld(world, farm_id)
+                            bot:findPath(tile.x, tile.y)
+                            sleep(200)
                         end
                     end
                 end
-
-                if bot:getWorld():getNPC(npc.id) == nil then break end
-                local npc_currx = math.floor(bot:getWorld():getNPC(npc.id).destx / 32)
-                local npc_curry = math.floor(bot:getWorld():getNPC(npc.id).desty / 32)
-
-                if npc_currx == nil or npc_curry == nil then break end
-                if npc_curry >= 55 then goto continue end
-
-                if bot:getWorld():getTile(npc_currx, npc_curry).fg == 0 and bot:getWorld():getTile(npc_currx, npc_curry + 1).fg ~= 0 and bot:getWorld():getTile(npc_currx, npc_curry + 3).fg ~= 0 and bot:getWorld():getTile(npc_currx, npc_curry + 2).fg == 0 then
-                    if os.time() < path_time + 3 then goto continue end
-
-                    bot:findPath(npc_currx, npc_curry)
-                    path_time = os.time()
-                    max = 1
-                    while not bot:isInTile(npc_currx, npc_curry) do
-                        sleep(500)
-                        max = max + 1
-
-                        if max >= 11 then break end
-                    end
-                end
-
-                local placed = false
-
-                if getposx() ~= npc_currx or getposy() ~= npc_curry then goto continue end
-
-                start_time = os.time()
-                max_place = 0
-                iterato = 1
-                iterator2 = 1
-                while true do
-
-                    max_fp = 0
-                    if bot.status ~= BotStatus.online then return end
-                    if bot:getWorld():getNPC(npc.id) == nil then break end
-
-                    if math.floor(math.sqrt((getposx() - math.floor(bot:getWorld():getNPC(npc.id).x / 32)) ^ 2 + (getposy() - math.floor(bot:getWorld():getNPC(npc.id).y / 32)) ^ 2)) > 4 then
-                        while true do
-
-                            if bot.status ~= BotStatus.online then return end
-
-                            if bot:getWorld():getNPC(npc.id) == nil then break end
-                            local currx = math.floor(bot:getWorld():getNPC(npc.id).destx / 32)
-                            local curry = math.floor(bot:getWorld():getNPC(npc.id).desty / 32)
-
-                            if currx == nil or curry == nil then goto continue end
-                            if curry >= 55 then goto continue end
-
-                            if bot:getWorld():getTile(npc_currx, npc_curry).fg == 0 and bot:getWorld():getTile(currx, curry + 1).fg ~= 0 and bot:getWorld():getTile(currx, curry + 3).fg ~= 0 and bot:getWorld():getTile(currx, curry + 2).fg == 0 then
-
-                                if os.time() < path_time + 3 then goto cont end
-
-                                bot:findPath(currx, curry)
-                                max_fp = max_fp + 1
-                                path_time = os.time()
-                                if max_fp >= 2 then
-                                    max_fp = 0
-                                    goto breakLoop
-                                end
-                                max = 1
-                                while not bot:isInTile(currx, curry) do
-                                    sleep(500)
-                                    max = max + 1
-                                    if max >= 11 then break end
-                                end
-                            end
-                            if getposx() == currx and getposy() == curry then break end
-                            ::cont::
-                            iterator2 = iterator2 + 1
-
-                            if iterator2 >= 3000 then
-                                iterator2 = 1
-                                break
-                            end
-                            sleep(100)
-                        end
-                    end
-
-                    if bot:getWorld():getNPC(npc.id) == nil then break end
-
-                    xx = math.floor(bot:getWorld():getNPC(npc.id).destx / 32)
-                    yy = math.floor(bot:getWorld():getNPC(npc.id).desty / 32)
-                    if math.floor(math.sqrt((getposx() - xx) ^ 2 + (getposy() - yy) ^ 2)) <= 4 then
-                        bot:hit(xx, yy)
-                        sleep(250)
-                    end
-
-                    if getposx() == math.floor(bot:getWorld():getNPC(npc.id).x / 32) and (getposy() == math.floor(bot:getWorld():getNPC(npc.id).y / 32) or getposy() + 1 == math.floor(bot:getWorld():getNPC(npc.id).y / 32)) and not placed then
-                        if bot:getWorld():getTile(getposx(), getposy() + 3).fg ~= 0 and bot:getWorld():getTile(getposx(), getposy() + 2).fg == 0 then
-                            if math.floor(math.sqrt((getposx() - math.floor(bot:getWorld():getNPC(npc.id).destx / 32)) ^ 2 + (getposy() - math.floor(bot:getWorld():getNPC(npc.id).desty / 32)) ^ 2)) <= 4 then
-                                sleep(50)
-                                bot:place(getposx(), getposy() + 2, ghost_jar)
-                                sleep(300)
-                                placed = true
-                            end
-                        end
-                    end
-
-                    if placed then
-                        gij_count = itemCount(ghost_in_a_jar)
-                        local iter = 1
-                        while gij_count - itemCount(ghost_in_a_jar) == 0 do
-
-                            if bot.status ~= BotStatus.online then return end
-                            if bot:getWorld():getNPC(npc.id) == nil then break end
-
-                            xx = math.floor(bot:getWorld():getNPC(npc.id).destx / 32)
-                            yy = math.floor(bot:getWorld():getNPC(npc.id).desty / 32)
-                            if math.floor(math.sqrt((getposx() - xx) ^ 2 + (getposy() - yy) ^ 2)) <= 4 then
-                                bot:hit(xx, yy)
-                                sleep(250)
-                            else
-                                placed = false
-                                sleep(5000)
-                                break
-                            end
-
-                            iter = iter + 1
-                            if iter > 50 then
-                                max_place = max_place + 1
-                                if max_place == 2 then goto continue end
-                                placed = false
-                                break
-                            end
-                        end
-
-                        if bot:getWorld():getNPC(npc.id) == nil then break end
-
-                        if gij_count - itemCount(ghost_in_a_jar) ~= 0 then
-                            breakOuterLoop = true
-                            break
-                        end
-                    end
-
-                    iterato = iterato + 1
-
-                    if iterato >= 6000 then
-                        iterato = 1
-                        break
-                    end
-                    sleep(50)
-                end
-
-                sleep(3000)
-                if breakOuterLoop then break end
-                ::continue::
             end
         end
-        ::breakLoop::
-        sleep(100)
     end
 end
+
+
+
+function harvest(world)
+
+    if not bot:isInWorld(world.."|"..farm_id) then
+        goWorld(world, farm_id)
+    end
+
+    for _, tile in pairs(getTiles()) do
+        if tile.fg == giving_tree or tile.bg == giving_tree then
+            if tile:getExtra().growth >= growth_time then
+                bot:findPath(tile.x, tile.y)
+                sleep(200)
+                while tile:getExtra().growth >= growth_time do
+                    bot:hit(tile.x, tile.y)
+                    sleep(250)
+                end
+            end
+        end
+    end
+
+end
+
+function drop()
+
+    goWorld(save_world, save_ID)
+
+    if bot:isInWorld(save_world) then
+        bot.auto_collect = false
+        bot:drop(prize_id, inventory:getItemCount(prize_id))
+        sleep(500)
+        if inventory:getItemCount(prize_id) > 0 then
+            bot:moveRight()
+            bot:drop(prize_id, inventory:getItemCount(prize_id))
+            sleep(500)
+        end
+    end
+
+    hot_count = 0
+    for _, obj in pairs(getObjects()) do
+        if obj.id == prize_id then
+            hot_count = hot_count + obj.count
+        end
+    end
+    WEBHOOOK("STOCK INFO", "TREE DECO: "..deco_count.."\nPRIZE COUNT: "..hot_count)
+
+end
+
+
 
 
 function main()
 
-    webHookEmbed(bot.name, "STARTING")
-
-    while true do
-        for _, world in pairs(hunt_worlds) do
-            hunt(world)
-
-            if stop_program then return end
+    if loop_world then
+        while true do
+            for _, farm in pairs(farm_worlds) do
+                giveDeco(farm:upper())
+                harvest(farm:upper())
+                drop()
+            end
+        end
+    else
+        for _, farm in pairs(farm_worlds) do
+            giveDeco(farm:upper())
+            harvest(farm:upper())
+            drop()
         end
     end
 end
