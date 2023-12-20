@@ -123,7 +123,7 @@ function harvest(world)
             if tile:getExtra().growth >= growth_time then
                 bot:findPath(tile.x, tile.y)
                 sleep(200)
-                while tile:getExtra().fruit_count ~= 0 do
+                while tile:getExtra().growth >= growth_time do
                     bot:hit(tile.x, tile.y)
                     sleep(250)
                 end
