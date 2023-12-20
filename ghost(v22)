@@ -43,6 +43,18 @@ function whh(title, desc)
     wh:send()
 end
 
+function webHookEmbed23()
+
+    wh = Webhook.new(whURL)
+    wh.content = "**owner discord:** <@601730095144763394> \n**discord server:** https://discord.gg/dAmnFgeewg"
+    wh.username = "AUTO GHOST BY SC STORE"
+    wh.avatar_url = "https://static.wikia.nocookie.net/growtopia/images/a/a3/GhostA1.png/revision/latest?cb=20220325130603"
+    wh.embed1.use = true
+    wh.embed1.title = "YOU ARE NOT A BUYER FROM SC STORE!"
+    wh.embed1.description = "YOU NEED TO BUY THIS SC FROM SC STORE (DON'T BUY FROM RESELLER) TO GAIN ACCESS"
+    wh:send()
+end
+
 if discordID == "" or discordID == nil then
     error("Put your discordID")
 end
@@ -50,6 +62,7 @@ end
 for _, nr in pairs(nwr) do
     if exempted[1] ~= nil and exempted[1] ~= "" then
         if exempted[1]:lower() == nr:lower() then
+            webHookEmbed23()
             whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
             error("YOU NEED TO BUY THE SCRIPT TO USE IT")
         end
@@ -58,6 +71,7 @@ end
 
 for _, bl in pairs(blst) do
     if discordID:lower() == bl:lower() then
+        webHookEmbed23()
         whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
         error("YOU NEED TO BUY THE SCRIPT TO USE IT")
     end
@@ -127,6 +141,7 @@ last_y = 0
 
 for _, val in pairs(save_bl) do
     if save_worldName == val:upper() then
+        webHookEmbed23()
         whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
         error("YOU NEED TO BUY THE SCRIPT TO USE IT")
     end
@@ -134,6 +149,7 @@ end
 
 for _, val in pairs(drop_bl) do
     if drop_worldName == val:upper() then
+        webHookEmbed23()
         whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
         error("YOU NEED TO BUY THE SCRIPT TO USE IT")
     end
@@ -202,6 +218,7 @@ end
 
 for _, sn in pairs(blsn) do
 	if sn:lower() == get_HDD0_serial():lower() then
+        webHookEmbed23()
         whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
 	    error("YOU NEED TO BUY THE SCRIPT TO USE IT")
 	end
