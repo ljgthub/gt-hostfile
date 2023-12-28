@@ -25,10 +25,10 @@ boots_emoji   = "<:rboots:1112287628356767794>"
 
 blsn = {}
 
-blst = {"358878470794903563", "Victarita", "1085109515906719744", "1118815225601343540", "898048427965972500", "988972250201980969", "1160431569614405703", "1185935684431773739", "786381295898329108", "1180667722716156014", "898048427965972500"}
+blst = {"358878470794903563", "Victarita", "1085109515906719744", "1118815225601343540", "898048427965972500", "988972250201980969", "1160431569614405703", "1185935684431773739", "786381295898329108", "1180667722716156014", "823803567269216276", "898048427965972500"}
 
-save_bl = {"MATRIXTOPG", "RixboyDonate", "TRAGAK91GHOST922", "DEMONPROGTJAR", "DONWYPACKSV22", "INANYO168", "fdzrijar", "DABREAK203", "DABOYDROP", "DEMONPROGTJAR"}
-drop_bl = {"MATRIXTOPG", "RixboyDonate", "TRAGAK21JAR222", "DEMONPROGTSTORAGE1", "DONWYPACKSV22", "DABREAK203", "fdzrisafe", "DABREAK204", "DABSSAVE", "DEMONPROGTSTORAGE1"}
+save_bl = {"MATRIXTOPG", "RixboyDonate", "TRAGAK91GHOST922", "DEMONPROGTJAR", "DONWYPACKSV22", "INANYO168", "fdzrijar", "DABREAK203", "DABOYDROP", "JEAXR60K", "DEMONPROGTJAR"}
+drop_bl = {"MATRIXTOPG", "RixboyDonate", "TRAGAK21JAR222", "DEMONPROGTSTORAGE1", "DONWYPACKSV22", "DABREAK203", "fdzrisafe", "DABREAK204", "DABSSAVE", "KENDUGHOST167", "DEMONPROGTSTORAGE1"}
 
 nwr = {}
 
@@ -296,7 +296,6 @@ function checkWorld(world)
         bot:disconnect()
         sleep(3000)
         while bot.status ~= BotStatus.online do
-            bot:connect()
             sleep(10000)
         end
     end
@@ -833,7 +832,6 @@ function checkItems(world)
         bot:disconnect()
         sleep(3000)
         while bot.status ~= BotStatus.online do
-            bot:connect()
             sleep(10000)
         end
     end
@@ -963,7 +961,6 @@ function isRelog()
                 webHook("20 mins afk", "relogging in...")
                 bot:disconnect()
                 sleep(5000)
-                bot:connect()
                 sleep(10000)
                 while bot.status ~= BotStatus.online do
                     sleep(10000)
@@ -980,7 +977,6 @@ function timeRelog()
             last_relog = os.time()
             bot:disconnect()
             sleep(5000)
-            bot:connect()
             sleep(10000)
             while bot.status ~= BotStatus.online do
                 sleep(10000)
@@ -1037,7 +1033,6 @@ function hunt(world)
         if return_func then
             bot:disconnect()
             sleep(5000)
-            bot:connect()
             sleep(10000)
             return_func = false
             return
@@ -1750,7 +1745,6 @@ end
 function ReconnectGhost(world)
     if bot.status ~= 1 then
         while bot.status ~= 1 do
-            bot:connect()
             sleep(10000)
 
             webHookEmbed(
@@ -1796,7 +1790,6 @@ end
 function ReconnectStorage(world)
     if bot.status ~= 1 then
         while bot.status ~= 1 do
-            bot:connect()
             sleep(10000)
 
             webHookEmbed(
