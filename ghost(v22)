@@ -274,6 +274,10 @@ end
 
 function checkWorld(world)
 
+    if not bot:isInWorld() then
+        sleep(3000)
+    end
+
     if bot:getWorld().name ~= world:match("(.+)|"):upper() then
         sleep(3000)
         bot:warp(world)
@@ -471,6 +475,9 @@ function getJar()
             end
         end
     else
+        if not bot:isInWorld() then
+            sleep(3000)
+        end
         sleep(3000)
         bot:warp(save_world)
         sleep(6000)
@@ -804,6 +811,10 @@ function checkItems(world)
 
     ReconnectGhost(world)
 
+    if not bot:isInWorld() then
+        sleep(3000)
+    end
+
     if bot:getWorld().name ~= world:upper() then
         sleep(3000)
         bot:warp(world.."|"..id_worlds)
@@ -812,6 +823,10 @@ function checkItems(world)
 
     ReconnectGhost(world)
 
+    if not bot:isInWorld() then
+        sleep(3000)
+    end
+
     if bot.status ~= 1 then return end
     if getposx() == nil or getposy() == nil then
         sleep(3000)
@@ -819,6 +834,10 @@ function checkItems(world)
         sleep(6000)
     end
 
+    if not bot:isInWorld() then
+        sleep(3000)
+    end
+    
     if bot:getWorld().name ~= world:upper() then
         sleep(3000)
         bot:warp(world.."|"..id_worlds)
@@ -1771,6 +1790,11 @@ function ReconnectGhost(world)
         ]]
         )
         end
+
+        if not bot:isInWorld() then
+            sleep(3000)
+        end
+
         sleep(3000)
         bot:warp(world.."|"..id_worlds)
         sleep(6000)
@@ -1815,6 +1839,9 @@ function ReconnectStorage(world)
         edited <t:]]..os.time()..[[:R>
         ]]
         )
+        end
+        if not bot:isInWorld() then
+            sleep(3000)
         end
         sleep(3000)
         bot:warp(world)
