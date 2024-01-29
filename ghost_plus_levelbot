@@ -341,6 +341,9 @@ function itemCount(id)
     return bot:getInventory():getItemCount(id)
 end
 
+drag_x = 2
+drag_y = 2
+
 function getGear()
 
     bot.auto_collect = false
@@ -384,6 +387,8 @@ function getGear()
                 if obj.id == gear then
                     if not bot:isInTile(math.floor(obj.x/32), math.floor(obj.y/32)) then
                         bot:findPath(math.floor(obj.x/32),math.floor(obj.y/32))
+                        drag_x = math.floor(obj.x/32)
+                        drag_y = math.floor(obj.y/32)
                         sleep(3000)
                     end
                 end
@@ -411,6 +416,29 @@ function getGear()
             sleep(100)
         end
     end
+
+    ReconnectStorage(save_world)
+    for _, obj in pairs(bot:getWorld():getObjects()) do
+        if obj.id == 1474 then
+            if not bot:isInTile(math.floor(obj.x/32), math.floor(obj.y/32)) then
+                bot:findPath(math.floor(obj.x/32),math.floor(obj.y/32))
+                sleep(3000)
+            end
+        end
+    end
+
+    if itemCount(1474) < 1 then
+        bot:collect(2, 500)
+        sleep(1000)
+    end
+
+    if itemCount(1474) > 1 then
+        bot:use(1474)
+        sleep(1000)
+    end
+
+    bot:drop(1474, bot:getInventory():getItemCount(1474))
+    sleep(1000)
 
     for id, count in pairs(getBot():getWorld().growscan:getObjects()) do
         if id == neutron_pack then ntp_count = count end
@@ -793,116 +821,6 @@ function dropItem()
     end
 end
 
-drag_x = 2
-drag_y = 2
-buff_x = 90
-buff_y = 2
-function getGear2()
-
-    bot.auto_collect = false
-    ReconnectStorage(save_world)
-
-    for _, bots in pairs(getBots()) do
-        local g = 1
-        while bots:getWorld().name == save_worldName:upper() and bots.name ~= bot.name do
-            sleep(3000)
-            g = g + 1
-            if g >= 10 then
-                g = 1
-                break
-            end
-        end
-    end
-
-    ReconnectStorage(save_world)
-    checkWorld(save_world)
-
-    if not bot:getWorld():getLocal() then
-        bot:disconnect()
-        sleep(10000)
-
-        ReconnectStorage(save_world)
-    end
-
-    hello_ww2 = {7750}
-    for _, gear in pairs(hello_ww2) do
-
-        if itemCount(gear) == 1 then
-            if not bot:getInventory():getItem(gear).isActive then
-                sleep(500)
-                bot:wear(gear)
-                sleep(4000)
-            end
-        end
-
-        while itemCount(gear) ~= 1 do
-            ReconnectStorage(save_world)
-            for _, obj in pairs(bot:getWorld():getObjects()) do
-                if obj.id == gear then
-                    if not bot:isInTile(math.floor(obj.x/32), math.floor(obj.y/32)) then
-                        bot:findPath(math.floor(obj.x/32),math.floor(obj.y/32))
-                        drag_x = math.floor(obj.x/32)
-                        drag_y = math.floor(obj.y/32)
-                        sleep(3000)
-                    end
-                end
-            end
-
-            if itemCount(gear) < 1 then
-                bot:collect(2, 500)
-                sleep(1000)
-            end
-
-            if itemCount(gear) > 1 then
-                sleep(500)
-                bot:drop(gear, bot:getInventory():getItemCount(gear) - 1)
-                sleep(4000)
-            end
-
-            if itemCount(gear) > 0 then
-                if not bot:getInventory():getItem(gear).isActive then
-                    sleep(500)
-                    bot:wear(gear)
-                    sleep(4000)
-                end
-            end
-
-            sleep(100)
-        end
-    end
-
-    ReconnectStorage(save_world)
-    for _, obj in pairs(bot:getWorld():getObjects()) do
-        if obj.id == 1474 then
-            if not bot:isInTile(math.floor(obj.x/32), math.floor(obj.y/32)) then
-                bot:findPath(math.floor(obj.x/32),math.floor(obj.y/32))
-                buff_x = math.floor(obj.x/32)
-                buff_y = math.floor(obj.y/32)
-                sleep(3000)
-            end
-        end
-    end
-
-    if itemCount(1474) < 1 then
-        bot:collect(2, 500)
-        sleep(1000)
-    end
-
-    if itemCount(1474) > 1 then
-        bot:wear(1474)
-        sleep(1000)
-    end
-
-    bot:drop(1474, bot:getInventory():getItemCount(1474))
-    sleep(1000)
-
-    if itemCount(7750) > 1 then
-        bot:drop(7750, bot:getInventory():getItemCount(7750))
-        sleep(1000)
-    end
-
-end
-
 function lastDrop()
 
 
@@ -935,18 +853,6 @@ function checkItems(world)
 
         if itemCount(gear) ~= 1 then
             getGear()
-        else
-            if not bot:getInventory():getItem(gear).isActive then
-                bot:wear(gear)
-                sleep(3000)
-            end
-        end
-    end
-
-    hello_ww = {7750}
-    for _, gear in pairs(hello_ww) do
-        if itemCount(gear) ~= 1 then
-            getGear2()
         else
             if not bot:getInventory():getItem(gear).isActive then
                 bot:wear(gear)
