@@ -842,6 +842,18 @@ function lastDrop()
         bot:drop(3714, bot:getInventory():getItemCount(3714))
         sleep(1000)
         bot:drop(3716, bot:getInventory():getItemCount(3716))
+        for _, obj in pairs(bot:getWorld():getObjects()) do
+
+            if obj.id == ghost_jar then
+                lastt_XX = math.floor(obj.x/32)
+                lastt_YY = math.floor(obj.y/32)
+            end
+        end
+        sleep(500)
+        bot:findPath(lastt_XX, lastt_YY)
+        sleep(2000)
+        bot:drop(ghost_jar, itemCount(ghost_jar))
+        sleep(4000)
     else
         bot:findPath(drag_x, drag_y)
         sleep(1000)
@@ -850,6 +862,18 @@ function lastDrop()
         bot:drop(3714, bot:getInventory():getItemCount(3714))
         sleep(1000)
         bot:drop(3716, bot:getInventory():getItemCount(3716))
+        for _, obj in pairs(bot:getWorld():getObjects()) do
+
+            if obj.id == ghost_jar then
+                lastt_XX = math.floor(obj.x/32)
+                lastt_YY = math.floor(obj.y/32)
+            end
+        end
+        sleep(500)
+        bot:findPath(lastt_XX, lastt_YY)
+        sleep(2000)
+        bot:drop(ghost_jar, itemCount(ghost_jar))
+        sleep(4000)
     end
 
     checkWorld(drop_world)
