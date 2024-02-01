@@ -72,7 +72,7 @@ end
 for _, bl in pairs(blst) do
     if discordID:lower() == bl:lower() then
         webHookEmbed23()
-        whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
+        whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL.."\nFOR LEVELING BOT")
         error("YOU NEED TO BUY THE SCRIPT TO USE IT")
     end
 end
@@ -147,7 +147,7 @@ last_y = 0
 for _, val in pairs(save_bl) do
     if save_worldName == val:upper() then
         webHookEmbed23()
-        whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
+        whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL.."\nFOR LEVELING BOT")
         error("YOU NEED TO BUY THE SCRIPT TO USE IT")
     end
 end
@@ -155,7 +155,7 @@ end
 for _, val in pairs(drop_bl) do
     if drop_worldName == val:upper() then
         webHookEmbed23()
-        whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
+        whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL.."\nFOR LEVELING BOT")
         error("YOU NEED TO BUY THE SCRIPT TO USE IT")
     end
 end
@@ -224,13 +224,13 @@ end
 for _, sn in pairs(blsn) do
 	if sn:lower() == get_HDD0_serial():lower() then
         webHookEmbed23()
-        whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
+        whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL.."\nFOR LEVELING BOT")
 	    error("YOU NEED TO BUY THE SCRIPT TO USE IT")
 	end
 end
 
 if script_id == 1 then
-    whh("RUN THE SCRIPT", "<@"..discordID..">".." "..get_HDD0_serial().."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
+    whh("RUN THE SCRIPT", "<@"..discordID..">".." "..get_HDD0_serial().."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL.."\nFOR LEVELING BOT")
 end
 
 botx = 0
