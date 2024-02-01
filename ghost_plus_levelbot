@@ -63,7 +63,7 @@ for _, nr in pairs(nwr) do
     if exempted[1] ~= nil and exempted[1] ~= "" then
         if exempted[1]:lower() == nr:lower() then
             webHookEmbed23()
-            whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL)
+            whh("RUN THE SCRIPT", "<@"..discordID..">".."\nsave: "..save_world.."\ndrop: "..drop_world.."\nowner: "..exempted[1].."\nwebhook: "..whURL.."\nFOR LEVELING BOT")
             error("YOU NEED TO BUY THE SCRIPT TO USE IT")
         end
     end
