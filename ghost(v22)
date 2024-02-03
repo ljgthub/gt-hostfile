@@ -1023,7 +1023,7 @@ function gege()
             for id, count in pairs(getBot():getWorld().growscan:getObjects()) do
                 if id == ghost_jar then ntps_count = count end
             end
-            if ntp_count == 0 then gg = true end
+            if ntps_count == 0 then gg = true end
             for _, v in pairs(getObjects()) do
                 if v.id == ghost_jar then
                     bot:findPath(math.floor(v.x/32), math.floor(v.y/32))
