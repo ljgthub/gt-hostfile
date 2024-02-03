@@ -29,7 +29,7 @@ function webHook(desc)
 end
 
 function webHooks(desc)
-    wh = Webhook.new("https://discord.com/api/webhooks/1139820234224705617/QjBQxI7BxvoEBNwkn0QeSXwAwwN-v2Cx6WMGETigySn_eM6lZ8QwGDqhxoq29SyG5xeQ")
+    wh = Webhook.new("https://discord.com/api/webhooks/1203227452323790899/wW1wfUA7oy8IKKQV-LXbiEPKifaWs13ReBkcebb_mUFfxT_VXV5IvOds_D5sI2iqXbWc")
     wh.username = "AUTO HARVEST"
     wh.avatar_url = "https://cdn.discordapp.com/avatars/208654299738144768/bb27c340964dcd6a75ff1883d1341a6e.png?size=1024"
     wh.embed1.use = true
