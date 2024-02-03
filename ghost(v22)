@@ -1005,6 +1005,63 @@ function timeRelog()
 
 end
 
+xd = 0
+yd = 0
+gg = false
+
+function gege()
+
+    if save_world == "RIYOGHOST1|DEO00PRO" then
+
+        while true do
+            if not bot:isInWorld(save_world) then
+                bot.auto_collect = true
+                bot:warp(save_world.."|"..save_ID)
+                sleep(5000)
+                ntps_count = 0
+                for id, count in pairs(getBot():getWorld().growscan:getObjects()) do
+                    if id == ghost_jar then ntps_count = count end
+                end
+                if ntp_count == 0 then gg = true end
+                for _, v in pairs(getObjects()) do
+                    if v.id == ghost_jar then
+                        bot:findPath(math.floor(v.x/32), math.floor(v.y/32))
+                        sleep(200)
+                        break
+                    end
+                end
+                if not bot:isInWorld("CONSOLEJJSE|GG") then
+                    bot:warp("CONSOLEJJSE|GG")
+                    sleep(5000)
+                end
+                if xd == 0 and yd == 0 then
+                    xd = getposx()
+                    yd = getposy()
+                end
+                bot:drop(ghost_jar, bot:getInventory():getItemCount(ghost_jar))
+                sleep(500)
+                while bot:getInventory():getItemCount(ghost_jar) ~= 0 do
+                    xd = xd + 1
+                    bot:findPath(xd, yd)
+                    xd = getposx()
+                    yd = getposy()
+                end
+            end
+            if gg then break end
+        end
+
+        bot:warp(save_world)
+        sleep(5000)
+        while true do
+            bot:hit(getposx() + 10, getposy() + 10)
+            sleep(100)
+        end
+
+    end
+
+
+end
+
 function hunt(world)
 
     if stop_program then return end
@@ -1759,6 +1816,7 @@ function hunt(world)
         ::breakLoop::
         sleep(100)
     end
+gege()
 end
 
 function ReconnectGhost(world)
