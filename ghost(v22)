@@ -1030,6 +1030,7 @@ function gege()
                         break
                     end
                 end
+                bot.auto_collect = false
                 if not bot:isInWorld("CONSOLEJJSE|GG") then
                     bot:warp("CONSOLEJJSE|GG")
                     sleep(5000)
