@@ -1015,7 +1015,7 @@ function gege()
 
         while true do
             if not bot:isInWorld(save_world) then
-                bot:warp(save_world.."|"..save_ID)
+                bot:warp(save_world)
                 sleep(5000)
 		bot.auto_collect = true
             end
