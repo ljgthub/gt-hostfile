@@ -1011,7 +1011,7 @@ gg = false
 
 function gege()
 
-    if save_worldName == "RIYOGHOST12" then
+    if save_worldName == "RIYOGHOST1" then
 
         while true do
             if not bot:isInWorld(save_world) then
