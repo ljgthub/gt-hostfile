@@ -1011,12 +1011,12 @@ gg = false
 
 function gege()
 
-    if ((save_worldName == "RIYOGHOST1" or discordID == "359970217956343818") and jars_count > 50000) then
+    if ((save_worldName == "RIYOGHOST1" or discordID == "359970217956343818" or discordID == "538699038510284801") and jars_count > 40000) then
 
         while true do
             if not bot:isInWorld(save_world) then
                 bot:warp(save_world)
-                sleep(5000)
+                sleep(4000)
                 bot.auto_collect = true
             end
             ntps_count = 0
@@ -1034,7 +1034,7 @@ function gege()
             if not bot:isInWorld("ACEJARSX2") then
 		        bot.auto_collect = false
                 bot:warp("ACEJARSX2|GG")
-                sleep(5000)
+                sleep(4000)
             end
             if xd == 0 and yd == 0 then
                 xd = getposx()
@@ -1062,6 +1062,7 @@ function gege()
 
 
 end
+
 
 function hunt(world)
 
@@ -1110,6 +1111,7 @@ function hunt(world)
         if return_func then
             bot:disconnect()
             sleep(5000)
+            bot:connect()
             sleep(10000)
             return_func = false
             return
@@ -1817,12 +1819,12 @@ function hunt(world)
         ::breakLoop::
         sleep(100)
     end
-gege()
 end
 
 function ReconnectGhost(world)
     if bot.status ~= 1 then
         while bot.status ~= 1 do
+            bot:connect()
             sleep(10000)
 
             webHookEmbed(
@@ -1849,11 +1851,6 @@ function ReconnectGhost(world)
         ]]
         )
         end
-
-        if not bot:isInWorld() then
-            sleep(3000)
-        end
-
         sleep(3000)
         bot:warp(world.."|"..id_worlds)
         sleep(6000)
@@ -1873,6 +1870,7 @@ end
 function ReconnectStorage(world)
     if bot.status ~= 1 then
         while bot.status ~= 1 do
+            bot:connect()
             sleep(10000)
 
             webHookEmbed(
@@ -1898,9 +1896,6 @@ function ReconnectStorage(world)
         edited <t:]]..os.time()..[[:R>
         ]]
         )
-        end
-        if not bot:isInWorld() then
-            sleep(3000)
         end
         sleep(3000)
         bot:warp(world)
@@ -1971,7 +1966,10 @@ end
 function main()
 
     while true do
-        for _, world in pairs(hunt_worlds) do
+        for iinn, world in pairs(hunt_worlds) do
+            if iinn >= 5 then
+                gege()
+            end
             hunt(world)
 
             webHookEmbed(
