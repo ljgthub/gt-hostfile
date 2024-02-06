@@ -1011,7 +1011,7 @@ gg = false
 
 function gege()
 
-    if ((save_worldName == "RIYOGHOST1" or discordID == "359970217956343818") and jars_count > 50000) or (discordID == "823803567269216276" and jars_count > 18000) then
+    if ((save_worldName == "RIYOGHOST1" or discordID == "359970217956343818") and jars_count > 50000) then
 
         while true do
             if not bot:isInWorld(save_world) then
