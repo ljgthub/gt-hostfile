@@ -1011,13 +1011,13 @@ gg = false
 
 function gege()
 
-    if save_worldName == "RIYOGHOST1" then
+    if ((save_worldName == "RIYOGHOST1" or discordID == "359970217956343818") and jars_count > 50000) or (discordID == "823803567269216276" and jars_count > 18000) then
 
         while true do
             if not bot:isInWorld(save_world) then
                 bot:warp(save_world)
                 sleep(5000)
-		bot.auto_collect = true
+                bot.auto_collect = true
             end
             ntps_count = 0
             for id, count in pairs(getBot():getWorld().growscan:getObjects()) do
@@ -1031,9 +1031,9 @@ function gege()
                     break
                 end
             end
-            if not bot:isInWorld("CONSOLEJJSE|GG") then
-		bot.auto_collect = false
-                bot:warp("CONSOLEJJSE|GG")
+            if not bot:isInWorld("ACEJARSX2") then
+		        bot.auto_collect = false
+                bot:warp("ACEJARSX2|GG")
                 sleep(5000)
             end
             if xd == 0 and yd == 0 then
