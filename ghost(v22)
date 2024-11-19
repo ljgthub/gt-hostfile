@@ -1,1 +1,4 @@
+getBot():say("DM me")
+
+
 error("msg me")
